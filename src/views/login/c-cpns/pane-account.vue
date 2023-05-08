@@ -56,7 +56,7 @@ const loginStore = useLoginStore()
 const { accountLoginAction } = loginStore
 const formRef = ref<FormInstance>()
 function loginAction() {
-  formRef.value?.validate((valid, fields) => {
+  formRef.value?.validate((valid) => {
     if (valid) {
       const name = account.name
       const password = account.password
