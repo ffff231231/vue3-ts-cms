@@ -24,11 +24,15 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import type { IAccount } from '@/types/index'
 import useLoginStore from '@/store/login/login'
+import { localCache } from '@/utils/cache'
+
+const CACHE_NAME = 'name'
+const CACHE_PASSWORD = 'password'
 
 // 1.定义account数据
 const account = reactive<IAccount>({
-  name: '',
-  password: ''
+  name: localCache.getCache('name') ?? '',
+  password: localCache.getCache('password') ?? ''
 })
 
 // 2.定义校验规则
@@ -55,12 +59,20 @@ const accountRules = reactive<FormRules>({
 const loginStore = useLoginStore()
 const { accountLoginAction } = loginStore
 const formRef = ref<FormInstance>()
-function loginAction() {
+function loginAction(isRemPwd: boolean) {
   formRef.value?.validate((valid) => {
     if (valid) {
       const name = account.name
       const password = account.password
-      accountLoginAction({ name, password })
+      accountLoginAction({ name, password }).then(() => {
+        if (isRemPwd) {
+          localCache.setCache(CACHE_NAME, name)
+          localCache.setCache(CACHE_PASSWORD, password)
+        } else {
+          localCache.removeCache(CACHE_NAME)
+          localCache.removeCache(CACHE_PASSWORD)
+        }
+      })
     } else {
       ElMessage.error('验证失败!')
     }
