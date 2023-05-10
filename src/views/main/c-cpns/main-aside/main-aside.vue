@@ -24,9 +24,11 @@
               <span>{{ item.name }}</span>
             </template>
             <template v-for="child in item.children" :key="child.id">
-              <el-menu-item :index="String(child.id)">{{
-                child.name
-              }}</el-menu-item>
+              <el-menu-item
+                :index="String(child.id)"
+                @click="handleItemClick(child.url)"
+                >{{ child.name }}</el-menu-item
+              >
             </template>
           </el-sub-menu></template
         >
@@ -38,6 +40,7 @@
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 
 // 定义 props
 interface IProps {
@@ -48,6 +51,12 @@ defineProps<IProps>()
 // 获取菜单树信息
 const loginStore = useLoginStore()
 const { userMenus } = storeToRefs(loginStore)
+
+// 监听菜单栏中每一项 item 的点击，然后进行路由跳转
+const router = useRouter()
+function handleItemClick(url: string) {
+  router.push(url)
+}
 </script>
 
 <style lang="less" scoped>

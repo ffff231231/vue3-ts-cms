@@ -22,7 +22,7 @@
             :size="30"
             src="https://upload.jianshu.io/users/upload_avatars/1102036/c3628b478f06.jpeg"
           />
-          <span class="name">coderwhy</span>
+          <span class="name">{{ userInfo.name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -47,15 +47,22 @@
 
 <script setup lang="ts">
 import { LOGIN_TOKEN } from '@/global/constants'
+import useLoginStore from '@/store/login/login'
 import { localCache } from '@/utils/cache'
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
+// 从 main 页面退出，返回到 login 页面
 const router = useRouter()
-
 function handleExitClick() {
   localCache.removeCache(LOGIN_TOKEN)
   router.push('/login')
 }
+
+// 动态获取登录用户的名字，在 header-info 中做展示
+const loginStore = useLoginStore()
+const { userInfo } = storeToRefs(loginStore)
+
 </script>
 
 <style lang="less" scoped>

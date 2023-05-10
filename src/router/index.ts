@@ -15,7 +15,39 @@ const router = createRouter({
     },
     {
       path: '/main',
-      component: () => import('../views/main/main.vue')
+      component: () => import('../views/main/main.vue'),
+      children: [
+        {
+          path: 'system/user',
+          component: () =>
+            import('../views/main/c-cpns/main-content/system/user.vue')
+        },
+        {
+          path: 'system/role',
+          component: () =>
+            import('../views/main/c-cpns/main-content/system/role.vue')
+        },
+        {
+          path: 'system/menu',
+          component: () =>
+            import('../views/main/c-cpns/main-content/system/menu.vue')
+        },
+        {
+          path: 'system/department',
+          component: () =>
+            import('../views/main/c-cpns/main-content/system/department.vue')
+        },
+        {
+          path: 'analysis/dashboard',
+          component: () =>
+            import('../views/main/c-cpns/main-content/analysis/dashboard.vue')
+        },
+        {
+          path: 'analysis/overview',
+          component: () =>
+            import('../views/main/c-cpns/main-content/analysis/overview.vue')
+        }
+      ]
     },
     {
       path: '/:pathMatch(.*)',
