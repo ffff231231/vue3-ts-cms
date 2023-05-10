@@ -11,7 +11,7 @@ const router = createRouter({
     },
     {
       path: '/login',
-      component: () => import('../views/login/Login.vue')
+      component: () => import('../views/login/login.vue')
     },
     {
       path: '/main',
@@ -19,7 +19,7 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)',
-      component: () => import('../views/not-found/NotFound.vue')
+      component: () => import('../views/not-found/not-found.vue')
     }
   ]
 })
