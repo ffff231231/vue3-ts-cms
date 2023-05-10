@@ -17,7 +17,7 @@ const useLoginStore = defineStore('login', {
   }),
   actions: {
     async accountLoginAction(account: IAccount) {
-      // 账号登录成功后，获取登录用户的简短信息
+      // 账号登录成功后，获取登录用户的简短信息，并将简短信息中的token保存到pinia
       const loginResult = await accountLoginRequest(account)
       const id = loginResult.data.id
       this.token = loginResult.data.token
@@ -25,11 +25,11 @@ const useLoginStore = defineStore('login', {
       // 将token保存到本地
       localCache.setCache(LOGIN_TOKEN, this.token)
 
-      // 获取登录用户的详细信息(role信息)
+      // 根据用户id，获取登录用户的详细信息，并将详细信息保存到pinia
       const userInfoResult = await getUserInfoById(id)
       this.userInfo = userInfoResult.data
 
-      // 根据角色
+      // 根据角色id，获取登录用户的菜单树信息，并将菜单树信息保存到pinia
       const userMenusResult = await getUserMenusByRoleId(this.userInfo.role.id)
       this.userMenus = userMenusResult.data
 
