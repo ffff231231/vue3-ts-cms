@@ -19,8 +19,6 @@ import { ref } from 'vue'
 import MainAside from './c-cpns/main-aside/main-aside.vue'
 import MainHeader from './c-cpns/main-header/main-header.vue'
 
-const mainAside = ref<InstanceType<typeof MainAside>>()
-
 // 处理 main-header 中折叠的变化
 const isFold = ref(false)
 function handFoldChange(value: boolean) {
