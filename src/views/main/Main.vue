@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="240px">
+      <el-aside width="210px">
         <main-aside />
       </el-aside>
       <el-container>
@@ -27,15 +27,24 @@ import MainHeader from './c-cpns/main-header.vue'
   height: 100vh;
 
   .el-aside {
-    background-color: #1097e091;
-  }
+    overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 200px;
+    text-align: left;
+    cursor: pointer;
+    background-color: #001529;
+    scrollbar-width: none; /* firefox */
+    -ms-overflow-style: none; /* IE 10+ */
 
-  .el-header {
-    background-color: #6ae3af;
+    transition: width 0.3s ease;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .el-main {
-    background-color: #c1ea6f;
+    background-color: #f0f2f5;
   }
 }
 </style>

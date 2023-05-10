@@ -40,8 +40,8 @@ const accountRules = reactive<FormRules>({
   name: [
     { required: true, message: '请输入账号信息', trigger: 'blur' },
     {
-      pattern: /^[a-zA-Z0-9\u4e00-\u9fa5]{3,8}$/,
-      message: '用户名应为 3 到 8 位数字或字母或汉字组成',
+      pattern: /^[a-zA-Z0-9\u4e00-\u9fa5]{3,10}$/,
+      message: '用户名应为 3 到 10 位数字或字母或汉字组成',
       trigger: 'blur'
     }
   ],
