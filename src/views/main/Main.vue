@@ -15,14 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import MainAside from './c-cpns/main-aside.vue'
-import MainHeader from './c-cpns/main-header.vue'
+import MainAside from './c-cpns/main-aside/main-aside.vue'
+import MainHeader from './c-cpns/main-header/main-header.vue'
 </script>
 
 <style lang="less" scoped>
-.main {
-  color: red;
-}
 .main-content {
   height: 100vh;
 
