@@ -1,7 +1,9 @@
 <template>
   <div class="main-header">
-    <div class="menu-icon">
-      <el-icon size="28px"> <Fold /> </el-icon>
+    <div class="menu-icon" @click="handleMenuIconClick">
+      <el-icon size="28px">
+        <component :is="isFold ? 'Expand' : 'Fold'"></component>
+      </el-icon>
     </div>
     <div class="content">
       <div class="breadcrumb">面包屑</div>
@@ -10,7 +12,22 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+
+// 内部自定义事件
+const emit = defineEmits(['foldChanfe'])
+
+// 纪录 menu-icon 的状态(是折叠还是展开)
+const isFold = ref(false)
+function handleMenuIconClick() {
+  // 改变 menu-icon 的状态
+  isFold.value = !isFold.value
+
+  // 将事件和 menu-icon 的状态传递给父组件
+  emit('foldChanfe', isFold.value)
+}
+</script>
 
 <style lang="less" scoped>
 .main-header {
