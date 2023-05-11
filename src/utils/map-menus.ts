@@ -28,7 +28,7 @@ export function mapMenusToRoutes(userMenus: any[]) {
   // 拿到本地路由对象数组localRoutes
   const localRoutes = loadLocalRoutes()
 
-  // 创建一个数组routes，用来存放与登录用户的菜单树信息相匹配的本地路由对象
+  // 创建一个数组matchRoutes，用来存放与登录用户的菜单树信息相匹配的本地路由对象
   const matchRoutes: RouteRecordRaw[] = []
   for (const menu of userMenus) {
     for (const child of menu.children) {

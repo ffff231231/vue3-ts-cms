@@ -25,6 +25,7 @@ const router = createRouter({
   ]
 })
 
+// 全局前置守卫——只有登录成功(拿到了token),才能真正进入main页面
 router.beforeEach((to) => {
   if (to.path !== '/login') {
     const token = localCache.getCache(LOGIN_TOKEN)

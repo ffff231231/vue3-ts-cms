@@ -22,6 +22,7 @@ const useLoginStore = defineStore('login', {
     userMenus: localCache.getCache(USER_MENUS) ?? []
   }),
   actions: {
+    // 用户输入账号和密码，点击登录按钮后，会执行这个函数
     async accountLoginAction(account: IAccount) {
       // 账号登录成功后，获取登录用户的简短信息，并将简短信息中的token保存到pinia和本地
       const loginResult = await accountLoginRequest(account)
@@ -49,6 +50,14 @@ const useLoginStore = defineStore('login', {
 
       // 跳转到main页面
       router.push('/main')
+    },
+    // 用户刷新浏览器后，需要执行这个函数，重新注册路由
+    loadLocalCacheAction() {
+      if (this.token && this.userInfo && this.userMenus) {
+        // 根据登录用户的菜单树信息，动态注册路由
+        const matchRoutes = mapMenusToRoutes(this.userMenus)
+        matchRoutes.forEach((route) => router.addRoute('main', route))
+      }
     }
   }
 })
