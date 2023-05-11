@@ -3,10 +3,4 @@ interface IAccount {
   password: string
 }
 
-interface ILoginState {
-  token: string
-  userInfo: any
-  userMenus: any
-}
-
-export type { IAccount, ILoginState }
+export type { IAccount }

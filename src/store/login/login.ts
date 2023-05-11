@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { IAccount, ILoginState } from '@/types/index'
+import type { IAccount } from '@/types/index'
 import {
   accountLoginRequest,
   getUserInfoById,
@@ -8,7 +8,13 @@ import {
 import { localCache } from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
+interface ILoginState {
+  token: string
+  userInfo: any
+  userMenus: any
+}
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? '',
@@ -36,6 +42,10 @@ const useLoginStore = defineStore('login', {
       const userMenus = userMenusResult.data
       this.userMenus = userMenus
       localCache.setCache(USER_MENUS, userMenus)
+
+      // 根据登录用户的菜单树信息，动态注册路由
+      const matchRoutes = mapMenusToRoutes(userMenus)
+      matchRoutes.forEach((route) => router.addRoute('main', route))
 
       // 跳转到main页面
       router.push('/main')

@@ -62,7 +62,6 @@ function handleExitClick() {
 // 动态获取登录用户的名字，在 header-info 中做展示
 const loginStore = useLoginStore()
 const { userInfo } = storeToRefs(loginStore)
-
 </script>
 
 <style lang="less" scoped>

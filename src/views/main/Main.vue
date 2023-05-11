@@ -6,7 +6,7 @@
       </el-aside>
       <el-container>
         <el-header height="50px">
-          <main-header @fold-chanfe="handFoldChange" />
+          <main-header @fold-change="handFoldChange" />
         </el-header>
         <el-main>
           <router-view></router-view>
@@ -21,7 +21,7 @@ import { ref } from 'vue'
 import MainAside from './c-cpns/main-aside/main-aside.vue'
 import MainHeader from './c-cpns/main-header/main-header.vue'
 
-// 处理 main-header 中折叠的变化
+// 根据 main-header 中折叠状态的变化，动态改变 el-aside 的宽度大小
 const isFold = ref(false)
 function handFoldChange(value: boolean) {
   isFold.value = value

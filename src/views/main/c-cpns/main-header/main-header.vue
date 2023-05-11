@@ -17,7 +17,7 @@ import { ref } from 'vue'
 import HeaderInfo from './c-cpns/header-info.vue'
 
 // 内部自定义事件
-const emit = defineEmits(['foldChanfe'])
+const emit = defineEmits(['foldChange'])
 
 // 纪录 menu-icon 的状态(是折叠还是展开)
 const isFold = ref(false)
@@ -26,7 +26,7 @@ function handleMenuIconClick() {
   isFold.value = !isFold.value
 
   // 将事件和 menu-icon 的状态传递给父组件
-  emit('foldChanfe', isFold.value)
+  emit('foldChange', isFold.value)
 }
 </script>
 
