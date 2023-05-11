@@ -23,6 +23,8 @@ function loadLocalRoutes() {
   return localRoutes
 }
 
+export let firstSubMenu: any = null
+
 // 根据登录用户的菜单树信息,去匹配本地路由对象
 export function mapMenusToRoutes(userMenus: any[]) {
   // 拿到本地路由对象数组localRoutes
@@ -31,12 +33,16 @@ export function mapMenusToRoutes(userMenus: any[]) {
   // 创建一个数组matchRoutes，用来存放与登录用户的菜单树信息相匹配的本地路由对象
   const matchRoutes: RouteRecordRaw[] = []
   for (const menu of userMenus) {
-    for (const child of menu.children) {
+    for (const submenu of menu.children) {
       const route = localRoutes.find(
-        (item) => item.path === child.url.replace('/main/', '')
+        (item) => item.path === submenu.url.replace('/main/', '')
       )
       if (route) {
         matchRoutes.push(route)
+      }
+      // 纪录第一个匹配到路由对象的菜单树信息
+      if (firstSubMenu === null && route) {
+        firstSubMenu = submenu
       }
     }
   }

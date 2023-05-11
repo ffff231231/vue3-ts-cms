@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { LOGIN_TOKEN } from '@/global/constants'
+import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
 import useLoginStore from '@/store/login/login'
 import { localCache } from '@/utils/cache'
 import { storeToRefs } from 'pinia'
@@ -56,6 +56,8 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 function handleExitClick() {
   localCache.removeCache(LOGIN_TOKEN)
+  localCache.removeCache(USER_INFO)
+  localCache.removeCache(USER_MENUS)
   router.push('/login')
 }
 
