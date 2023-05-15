@@ -50,3 +50,19 @@ export function mapMenusToRoutes(userMenus: any[]) {
   // 将matchRoutes数组导出
   return matchRoutes
 }
+
+/**
+ * 根据浏览器地址栏中的路径去匹配要显示的菜单(submenu)
+ * @param path 浏览器地址栏中的路径
+ * @param userMenus 登录用户的菜单树信息
+ * @returns 要显示的菜单(submenu)
+ */
+export function mapPathToMenu(path: string, userMenus: any[]) {
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (path === submenu.url) {
+        return submenu
+      }
+    }
+  }
+}

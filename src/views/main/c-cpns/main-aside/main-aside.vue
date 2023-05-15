@@ -13,7 +13,7 @@
         text-color="#b7bdc3"
         active-text-color="#fff"
         background-color="#001529"
-        default-active="2"
+        :default-active="defaultActive"
       >
         <template v-for="item in userMenus" :key="item.id">
           <el-sub-menu :index="String(item.id)">
@@ -39,8 +39,10 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
+import { mapPathToMenu } from '@/utils/map-menus'
 import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 // 定义 props
 interface IProps {
@@ -57,6 +59,11 @@ const router = useRouter()
 function handleItemClick(url: string) {
   router.push(url)
 }
+
+// main页面刷新之后，根据浏览器地址栏中的路径(path)去匹配要显示的菜单(submenu)
+const route = useRoute()
+const submenu = mapPathToMenu(route.path, loginStore.userMenus)
+const defaultActive = ref(String(submenu.id))
 </script>
 
 <style lang="less" scoped>
