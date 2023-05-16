@@ -8,7 +8,7 @@ import {
 import { localCache } from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { firstSubMenu, mapMenusToRoutes } from '@/utils/map-menus'
 
 interface ILoginState {
   token: string
@@ -48,10 +48,10 @@ const useLoginStore = defineStore('login', {
       const matchRoutes = mapMenusToRoutes(userMenus)
       matchRoutes.forEach((route) => router.addRoute('main', route))
 
-      // 跳转到main页面
-      router.push('/main')
+      // 跳转到第一个匹配到本地路由对象的二级菜单所对应的页面。
+      router.push(firstSubMenu.url)
     },
-    // 用户刷新浏览器后，需要执行这个函数，重新注册路由
+    // 用户刷新浏览器后，会执行这个函数，重新注册路由
     loadLocalCacheAction() {
       if (this.token && this.userInfo && this.userMenus) {
         // 根据登录用户的菜单树信息，动态注册路由

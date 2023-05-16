@@ -35,11 +35,6 @@ router.beforeEach((to) => {
       return '/login'
     }
   }
-
-  // 如果是进入到main页面
-  if (to.path === '/main') {
-    return firstSubMenu.url
-  }
 })
 
 export default router

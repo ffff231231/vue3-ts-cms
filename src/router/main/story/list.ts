@@ -1,4 +1,4 @@
 export default {
-  path: 'story/list',
+  path: '/main/story/list',
   component: () => import('@/views/main/c-cpns/main-content/story/list.vue')
 }

@@ -27,9 +27,8 @@ function loadLocalRoutes() {
 }
 
 export let firstSubMenu: any = null
-
 /**
- * 根据登录用户的菜单树信息,去匹配本地路由对象
+ * 根据登录用户的菜单树信息,去匹配本地的路由对象
  * @param userMenus 登录用户的菜单树信息
  * @returns 与登录用户的菜单树信息相匹配的本地路由对象数组(matchRoutes)
  */
@@ -41,9 +40,7 @@ export function mapMenusToRoutes(userMenus: any[]) {
   const matchRoutes: RouteRecordRaw[] = []
   for (const menu of userMenus) {
     for (const submenu of menu.children) {
-      const route = localRoutes.find(
-        (item) => item.path === submenu.url.replace('/main/', '')
-      )
+      const route = localRoutes.find((item) => item.path === submenu.url)
       if (route) {
         // 将登录用户的一级菜单映射为一个路由对象，并增加重定向功能，然后将其添加到matchRoutes数组。
         // 每个一级菜单映射的路由对象只需要向matchRoutes数组中添加一次。
@@ -66,10 +63,10 @@ export function mapMenusToRoutes(userMenus: any[]) {
 }
 
 /**
- * 根据浏览器地址栏中的路径(path)去匹配main-aside中要显示的二级菜单(submenu)
+ * 根据浏览器地址栏中的路径(path)去匹配对应的二级菜单(submenu)
  * @param path 浏览器地址栏中的路径
  * @param userMenus 登录用户的菜单树信息
- * @returns main-aside中要显示的二级菜单(submenu)
+ * @returns 对应的二级菜单(submenu)
  */
 export function mapPathToMenu(path: string, userMenus: any[]) {
   for (const menu of userMenus) {
@@ -86,10 +83,10 @@ interface IBreadCrumbs {
   path: string
 }
 /**
- * 根据浏览器地址栏中的路径(path)去匹配main-header中要显示的面包屑(breadcrumbs)
+ * 根据浏览器地址栏中的路径(path)生成对应的面包屑(breadcrumbs)信息
  * @param path 浏览器地址栏中的路径
  * @param userMenus 登录用户的菜单树信息
- * @returns main-header中要显示的面包屑(breadcrumbs)
+ * @returns 对应的面包屑(breadcrumbs)信息
  */
 export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
   // 创建一个数组breadcrumbs，用来存放面包屑信息
