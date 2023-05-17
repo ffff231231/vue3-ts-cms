@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { IAccount } from '@/types/index'
+import type { IAccount, ILoginState } from '@/types/index'
 import {
   accountLoginRequest,
   getUserInfoById,
@@ -10,11 +10,6 @@ import router from '@/router'
 import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
 import { firstSubMenu, mapMenusToRoutes } from '@/utils/map-menus'
 
-interface ILoginState {
-  token: string
-  userInfo: any
-  userMenus: any
-}
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? '',
