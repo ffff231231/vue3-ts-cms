@@ -34,8 +34,8 @@
               placeholder="请选择查询的状态"
               style="width: 100%"
             >
-              <el-option label="启用" value="1" />
-              <el-option label="禁用" value="0" />
+              <el-option label="启用" :value="1" />
+              <el-option label="禁用" :value="0" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -77,7 +77,7 @@ const searchForm = reactive({
   name: '',
   realname: '',
   cellphone: '',
-  enable: '1',
+  enable: 1,
   createAt: []
 })
 

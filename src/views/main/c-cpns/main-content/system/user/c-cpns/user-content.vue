@@ -56,7 +56,17 @@
           </el-button>
         </el-table-column>
       </el-table>
-      <div class="pagination">分页</div>
+    </div>
+    <div class="pagination">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="usersTotalCount"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
@@ -65,6 +75,7 @@
 import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
+import { ref } from 'vue'
 
 // 发起action,请求userslist的数据
 const systemStore = useSystemStore()
@@ -72,7 +83,17 @@ const { postUsersListAction } = systemStore
 postUsersListAction()
 
 // 获取userslist的数据,进行展示
-const { usersList } = storeToRefs(systemStore)
+const { usersList, usersTotalCount } = storeToRefs(systemStore)
+
+// 分页
+const currentPage = ref(1)
+const pageSize = ref(10)
+function handleSizeChange() {
+  console.log('handleSizeChange', pageSize.value)
+}
+function handleCurrentChange() {
+  console.log('handleCurrentChange', currentPage.value)
+}
 </script>
 
 <style lang="less" scoped>
@@ -101,6 +122,15 @@ const { usersList } = storeToRefs(systemStore)
   .el-button {
     margin-left: 0;
     padding: 5px 8px;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+
+  .el-pagination {
+    margin-top: 10px;
   }
 }
 </style>
