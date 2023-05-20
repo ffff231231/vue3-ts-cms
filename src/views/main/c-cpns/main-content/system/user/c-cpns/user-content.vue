@@ -27,18 +27,26 @@
           width="150"
         />
         <el-table-column align="center" prop="enable" label="状态" width="100">
-          <template #default="slotProps">
+          <template #default="scope">
             <el-button
-              :type="slotProps.row.enable ? 'success' : 'danger'"
+              :type="scope.row.enable ? 'success' : 'danger'"
               size="small"
               plain
             >
-              {{ slotProps.row.enable ? '启用' : '禁用' }}
+              {{ scope.row.enable ? '启用' : '禁用' }}
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="createAt" label="创建时间" />
-        <el-table-column align="center" prop="updateAt" label="更新时间" />
+        <el-table-column align="center" prop="createAt" label="创建时间">
+          <template #default="scope">
+            {{ formatUTC(scope.row.createAt) }}
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="updateAt" label="更新时间">
+          <template #default="scope">
+            {{ formatUTC(scope.row.createAt) }}
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="操作" width="150">
           <el-button text size="small" type="primary" icon="Edit">
             编辑
@@ -56,6 +64,7 @@
 <script setup lang="ts">
 import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
+import { formatUTC } from '@/utils/time-format'
 
 // 发起action,请求userslist的数据
 const systemStore = useSystemStore()
