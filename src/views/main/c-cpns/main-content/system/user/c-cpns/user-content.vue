@@ -77,22 +77,33 @@ import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
 
-// 发起action,请求userslist的数据
 const systemStore = useSystemStore()
-const { postUsersListAction } = systemStore
-postUsersListAction()
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+// 为了逻辑复用，将网络请求逻辑封装到一个函数里
+function fetchUsersData() {
+  const size = pageSize.value
+  const offset = (currentPage.value - 1) * size
+  const queryInfo = { size, offset }
+
+  systemStore.postUsersListAction(queryInfo)
+}
+
+// 第一次进入user页面时,发送一次网络请求,请求userslist的数据
+fetchUsersData()
 
 // 获取userslist的数据,进行展示
 const { usersList, usersTotalCount } = storeToRefs(systemStore)
 
-// 分页
-const currentPage = ref(1)
-const pageSize = ref(10)
+// 当pageSize发生改变的时候，调用这个函数，发送一次网络请求
 function handleSizeChange() {
-  console.log('handleSizeChange', pageSize.value)
+  fetchUsersData()
 }
+
+// 当currentPage发生改变的时候，调用这个函数，发送一次网络请求
 function handleCurrentChange() {
-  console.log('handleCurrentChange', currentPage.value)
+  fetchUsersData()
 }
 </script>
 
