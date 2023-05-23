@@ -6,7 +6,7 @@
     />
     <user-content
       ref="userContentRef"
-      @new-click="handleNewUserClick"
+      @new-click="handleNewClick"
     ></user-content>
     <user-dialog ref="userDialogRef" />
   </div>
@@ -37,7 +37,7 @@ function handleResetClick() {
 }
 
 // 监听user-content组件中的newClick事件
-function handleNewUserClick() {
+function handleNewClick() {
   userDialogRef.value?.changeDialogVisible()
 }
 </script>

@@ -8,31 +8,12 @@
       <el-table :data="usersList" border style="width: 100%">
         <el-table-column align="center" type="selection" width="50" />
         <el-table-column align="center" type="index" label="序号" width="60" />
-        <el-table-column
-          align="center"
-          prop="name"
-          label="用户名"
-          width="150"
-        />
-        <el-table-column
-          align="center"
-          prop="realname"
-          label="真实姓名"
-          width="150"
-        />
-        <el-table-column
-          align="center"
-          prop="cellphone"
-          label="电话号码"
-          width="150"
-        />
+        <el-table-column align="center" prop="name" label="用户名" width="150" />
+        <el-table-column align="center" prop="realname" label="真实姓名" width="150" />
+        <el-table-column align="center" prop="cellphone" label="电话号码" width="150" />
         <el-table-column align="center" prop="enable" label="状态" width="100">
           <template #default="scope">
-            <el-button
-              :type="scope.row.enable ? 'success' : 'danger'"
-              size="small"
-              plain
-            >
+            <el-button :type="scope.row.enable ? 'success' : 'danger'" size="small" plain>
               {{ scope.row.enable ? '启用' : '禁用' }}
             </el-button>
           </template>
@@ -49,9 +30,7 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
           <template #default="scope">
-            <el-button text size="small" type="primary" icon="Edit">
-              编辑
-            </el-button>
+            <el-button text size="small" type="primary" icon="Edit"> 编辑 </el-button>
             <el-button
               text
               size="small"
@@ -135,7 +114,7 @@ function handleDeleteBtnClick(userId: number) {
 
 // 点击新建用户按钮后，执行这个函数
 function handleNewUserClick() {
-  emit('newUser')
+  emit('newClick')
 }
 
 // 第一次进入user页面时,发送一次网络请求,请求userslist的数据
