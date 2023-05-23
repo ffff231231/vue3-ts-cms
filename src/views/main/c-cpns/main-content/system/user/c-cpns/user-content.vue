@@ -61,7 +61,7 @@
       <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[10, 20, 30]"
+        :page-sizes="[5, 10, 15]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="usersTotalCount"
         @size-change="handleSizeChange"
@@ -79,32 +79,49 @@ import { ref } from 'vue'
 
 const systemStore = useSystemStore()
 const currentPage = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(5)
+let cacheFormData: any
 
-// 为了逻辑复用，将网络请求逻辑封装到一个函数里
-function fetchUsersData() {
+// 为了逻辑复用，将请求userslist数据的网络请求逻辑封装到一个函数里
+function fetchUserListData(formData: any = {}) {
+  // 获取offset和size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
-  const queryInfo = { size, offset }
+  const pageInfo = { size, offset }
 
+  // 将user-search中的表单查询数据(formData)缓存起来
+  cacheFormData = formData
+
+  // 将offset、size、user-search中的表单查询数据(formData)组合成查询信息
+  const queryInfo = { ...pageInfo, ...formData }
+
+  // 发送网络请求
   systemStore.postUsersListAction(queryInfo)
 }
 
+// 将currentPage重置成默认值
+// 我不准备把pageSize重置成默认值，如果你想的话，可以把pageSize也重置成默认值
+function resetCurrentPage() {
+  currentPage.value = 1
+}
+
+// 当pageSize发生改变的时候，调用这个函数，发送一次网络请求,请求userslist的数据
+function handleSizeChange() {
+  fetchUserListData(cacheFormData)
+}
+
+// 当currentPage发生改变的时候，调用这个函数，发送一次网络请求,请求userslist的数据
+function handleCurrentChange() {
+  fetchUserListData(cacheFormData)
+}
+
 // 第一次进入user页面时,发送一次网络请求,请求userslist的数据
-fetchUsersData()
+fetchUserListData()
 
 // 获取userslist的数据,进行展示
 const { usersList, usersTotalCount } = storeToRefs(systemStore)
 
-// 当pageSize发生改变的时候，调用这个函数，发送一次网络请求
-function handleSizeChange() {
-  fetchUsersData()
-}
-
-// 当currentPage发生改变的时候，调用这个函数，发送一次网络请求
-function handleCurrentChange() {
-  fetchUsersData()
-}
+defineExpose({ fetchUserListData, resetCurrentPage })
 </script>
 
 <style lang="less" scoped>
