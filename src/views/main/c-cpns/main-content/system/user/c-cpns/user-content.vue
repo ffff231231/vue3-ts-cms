@@ -48,12 +48,20 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
-          <el-button text size="small" type="primary" icon="Edit">
-            编辑
-          </el-button>
-          <el-button text size="small" type="danger" icon="Delete">
-            删除
-          </el-button>
+          <template #default="scope">
+            <el-button text size="small" type="primary" icon="Edit">
+              编辑
+            </el-button>
+            <el-button
+              text
+              size="small"
+              type="danger"
+              icon="Delete"
+              @click="handleDeleteBtnClick(scope.row.id)"
+            >
+              删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -80,7 +88,7 @@ import { ref } from 'vue'
 const systemStore = useSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(5)
-let cacheFormData: any
+let cacheFormData: any = {}
 
 // 为了逻辑复用，将请求userslist数据的网络请求逻辑封装到一个函数里
 function fetchUserListData(formData: any = {}) {
@@ -105,14 +113,23 @@ function resetCurrentPage() {
   currentPage.value = 1
 }
 
-// 当pageSize发生改变的时候，调用这个函数，发送一次网络请求,请求userslist的数据
+// 当pageSize发生改变的时候，执行这个函数，发送一次网络请求,请求userslist的数据
 function handleSizeChange() {
   fetchUserListData(cacheFormData)
 }
 
-// 当currentPage发生改变的时候，调用这个函数，发送一次网络请求,请求userslist的数据
+// 当currentPage发生改变的时候，执行这个函数，发送一次网络请求,请求userslist的数据
 function handleCurrentChange() {
   fetchUserListData(cacheFormData)
+}
+
+// 点击删除按钮之后，执行这个函数
+function handleDeleteBtnClick(userId: number) {
+  // 删除数据操作
+  systemStore.deleteUserAction(userId).then(() => {
+    // 删除数据成功之后，重新请求新的数据
+    fetchUserListData(cacheFormData)
+  })
 }
 
 // 第一次进入user页面时,发送一次网络请求,请求userslist的数据

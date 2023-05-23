@@ -1,4 +1,4 @@
-import { postUsersListData } from '@/service/main/system/system'
+import { deleteUserById, postUsersListData } from '@/service/main/system/system'
 import type { ISystemState } from '@/types'
 import { defineStore } from 'pinia'
 
@@ -13,6 +13,10 @@ const useSystemStore = defineStore('system', {
       const { list, totalCount } = usersListResult.data
       this.usersList = list
       this.usersTotalCount = totalCount
+    },
+    async deleteUserAction(userId: number) {
+      const deleteResult = await deleteUserById(userId)
+      console.log(deleteResult)
     }
   }
 })
