@@ -2,7 +2,7 @@
   <div class="user-content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary">新建用户</el-button>
+      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="usersList" border style="width: 100%">
@@ -85,6 +85,7 @@ import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
 
+const emit = defineEmits(['newClick'])
 const systemStore = useSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(5)
@@ -130,6 +131,11 @@ function handleDeleteBtnClick(userId: number) {
     // 删除数据成功之后，重新请求新的数据
     fetchUserListData(cacheFormData)
   })
+}
+
+// 点击新建用户按钮后，执行这个函数
+function handleNewUserClick() {
+  emit('newUser')
 }
 
 // 第一次进入user页面时,发送一次网络请求,请求userslist的数据
