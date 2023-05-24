@@ -106,10 +106,7 @@ function handleCurrentChange() {
 // 点击删除按钮之后，执行这个函数
 function handleDeleteBtnClick(userId: number) {
   // 删除数据操作
-  userStore.deleteUserAction(userId).then(() => {
-    // 删除数据成功之后，重新请求新的数据
-    fetchUserListData(cacheFormData)
-  })
+  userStore.deleteUserAction(userId)
 }
 
 // 点击新建用户按钮后，执行这个函数

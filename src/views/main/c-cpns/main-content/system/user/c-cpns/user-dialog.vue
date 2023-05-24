@@ -34,7 +34,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"> 确定 </el-button>
+          <el-button type="primary" @click="handleConfirmClick"> 确定 </el-button>
         </span>
       </template>
     </el-dialog>
@@ -44,9 +44,14 @@
 <script setup lang="ts">
 import useDepartmentStore from '@/store/main/system/department'
 import useRoleStore from '@/store/main/system/role'
+import useUserStore from '@/store/main/system/user'
 import { storeToRefs } from 'pinia'
 import { reactive, ref } from 'vue'
 
+const roleStore = useRoleStore()
+const departmentStore = useDepartmentStore()
+const userStore = useUserStore()
+const dialogVisible = ref(false)
 const formData = reactive({
   name: '',
   realname: '',
@@ -55,17 +60,23 @@ const formData = reactive({
   roleId: '',
   departmentId: ''
 })
-const dialogVisible = ref(false)
 
 // 控制dialog的可见性
 function changeDialogVisible() {
   dialogVisible.value = !dialogVisible.value
 }
 
-const roleStore = useRoleStore()
+// 获取rolesList数据
 const { rolesList } = storeToRefs(roleStore)
-const departmentStore = useDepartmentStore()
+
+// 获取departmentsList数据
 const { departmentsList } = storeToRefs(departmentStore)
+
+// 点击确定按钮之后，执行这个函数
+function handleConfirmClick() {
+  dialogVisible.value = false
+  userStore.newUserDataAction(formData)
+}
 
 defineExpose({ changeDialogVisible })
 </script>

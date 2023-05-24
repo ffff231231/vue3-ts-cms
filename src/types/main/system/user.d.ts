@@ -13,6 +13,7 @@ interface IUser {
 interface IUserState {
   usersList: IUser[]
   usersTotalCount: number
+  cacheQueryInfo: any
 }
 
 export type { IUser, IUserState }

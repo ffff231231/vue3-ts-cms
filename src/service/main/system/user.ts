@@ -12,3 +12,9 @@ export function deleteUserById(userId: number) {
     url: `/users/${userId}`
   })
 }
+export function newUserData(userInfo: any) {
+  return hyRequest.post({
+    url: '/users',
+    data: userInfo
+  })
+}
