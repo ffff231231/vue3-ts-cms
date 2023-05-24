@@ -1,23 +1,16 @@
 <template>
-  <div class="user-content">
+  <div class="page-content">
     <div class="header">
-      <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
+      <h3 class="title">部门列表</h3>
+      <el-button type="primary" @click="handleNewPageClick">新建部门</el-button>
     </div>
     <div class="table">
-      <el-table :data="usersList" border style="width: 100%">
+      <el-table :data="pageList" border style="width: 100%">
         <el-table-column align="center" type="selection" width="50" />
         <el-table-column align="center" type="index" label="序号" width="60" />
-        <el-table-column align="center" prop="name" label="用户名" width="150" />
-        <el-table-column align="center" prop="realname" label="真实姓名" width="150" />
-        <el-table-column align="center" prop="cellphone" label="电话号码" width="150" />
-        <el-table-column align="center" prop="enable" label="状态" width="100">
-          <template #default="scope">
-            <el-button :type="scope.row.enable ? 'success' : 'danger'" size="small" plain>
-              {{ scope.row.enable ? '启用' : '禁用' }}
-            </el-button>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" prop="name" label="部门名称" width="150" />
+        <el-table-column align="center" prop="leader" label="部门领导" width="150" />
+        <el-table-column align="center" prop="parentId" label="上级部门" width="150" />
         <el-table-column align="center" prop="createAt" label="创建时间">
           <template #default="scope">
             {{ formatUTC(scope.row.createAt) }}
@@ -58,7 +51,7 @@
         v-model:page-size="pageSize"
         :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="usersTotalCount"
+        :total="pageTotalCount"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -67,32 +60,32 @@
 </template>
 
 <script setup lang="ts">
-import useUserStore from '@/store/main/system/user.js'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
+import usePageStore from '@/store/main/system/page'
 
 const emit = defineEmits(['newClick', 'editClick'])
-const userStore = useUserStore()
+const pageStore = usePageStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
 let cacheSearchForm: any = {}
 
-// 为了逻辑复用，将请求userslist数据的网络请求逻辑封装到一个函数里
-function fetchUsersListData(searchForm: any = {}) {
+// 为了逻辑复用，将请求pageslist数据的网络请求逻辑封装到一个函数里
+function fetchPageListData(searchForm: any = {}) {
   // 获取offset和size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const pageInfo = { size, offset }
 
-  // 将user-search中的表单查询数据(searchForm)缓存起来
+  // 将page-search中的表单查询数据(searchForm)缓存起来
   cacheSearchForm = searchForm
 
-  // 将offset、size、user-search中的表单查询数据(searchForm)组合成查询信息
+  // 将offset、size、page-search中的表单查询数据(searchForm)组合成查询信息
   const queryInfo = { ...pageInfo, ...searchForm }
 
   // 发送网络请求
-  userStore.postUsersListAction(queryInfo)
+  pageStore.postPageListAction('department', queryInfo)
 }
 
 // 将currentPage重置成默认值
@@ -101,43 +94,43 @@ function resetCurrentPage() {
   currentPage.value = 1
 }
 
-// 当pageSize发生改变的时候，执行这个函数，发送一次网络请求,请求userslist的数据
+// 当pageSize发生改变的时候，执行这个函数，发送一次网络请求,请求pageslist的数据
 function handleSizeChange() {
-  fetchUsersListData(cacheSearchForm)
+  fetchPageListData(cacheSearchForm)
 }
 
-// 当currentPage发生改变的时候，执行这个函数，发送一次网络请求,请求userslist的数据
+// 当currentPage发生改变的时候，执行这个函数，发送一次网络请求,请求pageslist的数据
 function handleCurrentChange() {
-  fetchUsersListData(cacheSearchForm)
+  fetchPageListData(cacheSearchForm)
 }
 
 // 点击删除按钮之后，执行这个函数
-function handleDeleteBtnClick(userId: number) {
+function handleDeleteBtnClick(pageId: number) {
   // 删除数据操作
-  userStore.deleteUserAction(userId)
+  pageStore.deletePageAction('department', pageId)
 }
 
 // 点击编辑按钮之后，执行这个函数
-function handleEditBtnClick(userInfo: any) {
-  emit('editClick', userInfo)
+function handleEditBtnClick(pageInfo: any) {
+  emit('editClick', pageInfo)
 }
 
 // 点击新建用户按钮后，执行这个函数
-function handleNewUserClick() {
+function handleNewPageClick() {
   emit('newClick')
 }
 
-// 第一次进入user页面时,发送一次网络请求,请求userslist的数据
-fetchUsersListData()
+// 第一次进入page页面时,发送一次网络请求,请求pageslist的数据
+fetchPageListData()
 
-// 获取userslist的数据,进行展示
-const { usersList, usersTotalCount } = storeToRefs(userStore)
+// 获取pageslist的数据,进行展示
+const { pageList, pageTotalCount } = storeToRefs(pageStore)
 
-defineExpose({ fetchUsersListData, resetCurrentPage })
+defineExpose({ fetchPageListData, resetCurrentPage })
 </script>
 
 <style lang="less" scoped>
-.user-content {
+.page-content {
   margin-top: 20px;
   padding: 20px;
   background-color: #fff;

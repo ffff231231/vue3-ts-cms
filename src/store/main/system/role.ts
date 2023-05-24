@@ -1,5 +1,5 @@
 import { postRolesListData } from '@/service/main/system/role'
-import type { IRoleState } from '@/types/main/system/role'
+import type { IRoleState } from '@/types'
 import { defineStore } from 'pinia'
 
 const useRoleStore = defineStore('role', {

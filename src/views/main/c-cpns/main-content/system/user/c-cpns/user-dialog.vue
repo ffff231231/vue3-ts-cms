@@ -1,5 +1,5 @@
 <template>
-  <div class="user-modal">
+  <div class="user-dialog">
     <el-dialog
       v-model="dialogVisible"
       :title="isNewRef ? '新建用户' : '编辑用户'"
@@ -7,7 +7,7 @@
       center
     >
       <div class="form">
-        <el-form :model="formData" label-width="80px" size="large">
+        <el-form :model="formData" label-width="100px" size="large">
           <el-form-item label="用户名" prop="name">
             <el-input v-model="formData.name" placeholder="请输入用户名"></el-input>
           </el-form-item>
@@ -116,4 +116,8 @@ const { departmentsList } = storeToRefs(departmentStore)
 defineExpose({ showDialog, callbackUserInfo })
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.form {
+  padding: 0 20px 0 0;
+}
+</style>

@@ -23,29 +23,29 @@ const userContentRef = ref<InstanceType<typeof UserContent>>()
 const userDialogRef = ref<InstanceType<typeof UserDialog>>()
 
 // 监听user-search组件中的queryClick事件
-function handleQueryClick(formData: any) {
+function handleQueryClick(searchForm: any) {
   userContentRef.value?.resetCurrentPage()
-  userContentRef.value?.fetchUserListData(formData)
+  userContentRef.value?.fetchUsersListData(searchForm)
 }
 
 // 监听user-search组件中的resetClick事件
 function handleResetClick() {
   userContentRef.value?.resetCurrentPage()
-  userContentRef.value?.fetchUserListData()
+  userContentRef.value?.fetchUsersListData()
 }
 
 // 监听user-content组件中的newClick事件
 function handleNewClick() {
-  // 显示dialog
+  // 显示dialog对话框
   userDialogRef.value?.showDialog()
 }
 
 // 监听user-content组件中的editClick事件
 function handleEditClick(userInfo: any) {
-  // 回显用户数据
+  // 在dialog对话框中回显user数据
   userDialogRef.value?.callbackUserInfo(userInfo)
 
-  // 显示dialog
+  // 显示dialog对话框
   userDialogRef.value?.showDialog(false)
 }
 </script>

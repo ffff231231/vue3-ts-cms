@@ -1,2 +1,5 @@
 export * from './login/login'
+export * from './main/system/department'
+export * from './main/system/page'
+export * from './main/system/role'
 export * from './main/system/user'

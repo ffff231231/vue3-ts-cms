@@ -1,5 +1,5 @@
 import { postDepartmentsListData } from '@/service/main/system/department'
-import type { IDepartmentState } from '@/types/main/system/department'
+import type { IDepartmentState } from '@/types'
 import { defineStore } from 'pinia'
 
 const useDepartmentStore = defineStore('department', {
