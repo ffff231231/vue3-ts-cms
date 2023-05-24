@@ -1,13 +1,7 @@
 <template>
   <div class="user">
-    <user-search
-      @query-click="handleQueryClick"
-      @reset-click="handleResetClick"
-    />
-    <user-content
-      ref="userContentRef"
-      @new-click="handleNewClick"
-    ></user-content>
+    <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
+    <user-content ref="userContentRef" @new-click="handleNewClick"></user-content>
     <user-dialog ref="userDialogRef" />
   </div>
 </template>

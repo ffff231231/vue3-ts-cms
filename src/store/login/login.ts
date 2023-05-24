@@ -1,14 +1,12 @@
 import { defineStore } from 'pinia'
 import type { IAccount, ILoginState } from '@/types/index'
-import {
-  accountLoginRequest,
-  getUserInfoById,
-  getUserMenusByRoleId
-} from '@/service/login/login'
+import { accountLoginRequest, getUserInfoById, getUserMenusByRoleId } from '@/service/login/login'
 import { localCache } from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
 import { firstSubMenu, mapMenusToRoutes } from '@/utils/map-menus'
+import useRoleStore from '../main/system/role'
+import useDepartmentStore from '../main/system/department'
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
@@ -43,6 +41,14 @@ const useLoginStore = defineStore('login', {
       const matchRoutes = mapMenusToRoutes(userMenus)
       matchRoutes.forEach((route) => router.addRoute('main', route))
 
+      // 请求所有rolesList数据
+      const roleStore = useRoleStore()
+      roleStore.postRolesListAction()
+
+      // 请求所有departmentsList数据
+      const departmentStore = useDepartmentStore()
+      departmentStore.postDepartmentsListAction()
+
       // 跳转到第一个匹配到本地路由对象的二级菜单所对应的页面。
       router.push(firstSubMenu.url)
     },
@@ -52,6 +58,14 @@ const useLoginStore = defineStore('login', {
         // 根据登录用户的菜单树信息，动态注册路由
         const matchRoutes = mapMenusToRoutes(this.userMenus)
         matchRoutes.forEach((route) => router.addRoute('main', route))
+
+        // 请求所有rolesList数据
+        const roleStore = useRoleStore()
+        roleStore.postRolesListAction()
+
+        // 请求所有departmentsList数据
+        const departmentStore = useDepartmentStore()
+        departmentStore.postDepartmentsListAction()
       }
     }
   }

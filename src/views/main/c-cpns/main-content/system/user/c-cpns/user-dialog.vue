@@ -17,14 +17,16 @@
           </el-form-item>
           <el-form-item label="选择角色" prop="enable">
             <el-select v-model="formData.roleId" placeholder="请选择角色" style="width: 100%">
-              <el-option label="程序员" :value="1" />
-              <el-option label="客服" :value="0" />
+              <template v-for="item in rolesList" :key="item.id">
+                <el-option :label="item.name" :value="item.id" />
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item label="选择部门" prop="enable">
             <el-select v-model="formData.departmentId" placeholder="请选择部门" style="width: 100%">
-              <el-option label="开发部" :value="1" />
-              <el-option label="客服部" :value="0" />
+              <template v-for="item in departmentsList" :key="item.id">
+                <el-option :label="item.name" :value="item.id" />
+              </template>
             </el-select>
           </el-form-item>
         </el-form>
@@ -40,6 +42,9 @@
 </template>
 
 <script setup lang="ts">
+import useDepartmentStore from '@/store/main/system/department'
+import useRoleStore from '@/store/main/system/role'
+import { storeToRefs } from 'pinia'
 import { reactive, ref } from 'vue'
 
 const formData = reactive({
@@ -52,9 +57,15 @@ const formData = reactive({
 })
 const dialogVisible = ref(false)
 
+// 控制dialog的可见性
 function changeDialogVisible() {
   dialogVisible.value = !dialogVisible.value
 }
+
+const roleStore = useRoleStore()
+const { rolesList } = storeToRefs(roleStore)
+const departmentStore = useDepartmentStore()
+const { departmentsList } = storeToRefs(departmentStore)
 
 defineExpose({ changeDialogVisible })
 </script>

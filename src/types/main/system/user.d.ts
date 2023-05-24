@@ -10,9 +10,9 @@ interface IUser {
   updateAt: string
 }
 
-interface ISystemState {
+interface IUserState {
   usersList: IUser[]
   usersTotalCount: number
 }
 
-export type { IUser, ISystemState }
+export type { IUser, IUserState }

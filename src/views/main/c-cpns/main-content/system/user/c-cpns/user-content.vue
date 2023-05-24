@@ -48,7 +48,7 @@
       <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[5, 10, 15]"
+        :page-sizes="[10, 20, 30]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="usersTotalCount"
         @size-change="handleSizeChange"
@@ -59,15 +59,15 @@
 </template>
 
 <script setup lang="ts">
-import useSystemStore from '@/store/main/system/system'
+import useUserStore from '@/store/main/system/user.js'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
 
 const emit = defineEmits(['newClick'])
-const systemStore = useSystemStore()
+const userStore = useUserStore()
 const currentPage = ref(1)
-const pageSize = ref(5)
+const pageSize = ref(10)
 let cacheFormData: any = {}
 
 // 为了逻辑复用，将请求userslist数据的网络请求逻辑封装到一个函数里
@@ -84,7 +84,7 @@ function fetchUserListData(formData: any = {}) {
   const queryInfo = { ...pageInfo, ...formData }
 
   // 发送网络请求
-  systemStore.postUsersListAction(queryInfo)
+  userStore.postUsersListAction(queryInfo)
 }
 
 // 将currentPage重置成默认值
@@ -106,7 +106,7 @@ function handleCurrentChange() {
 // 点击删除按钮之后，执行这个函数
 function handleDeleteBtnClick(userId: number) {
   // 删除数据操作
-  systemStore.deleteUserAction(userId).then(() => {
+  userStore.deleteUserAction(userId).then(() => {
     // 删除数据成功之后，重新请求新的数据
     fetchUserListData(cacheFormData)
   })
@@ -121,7 +121,7 @@ function handleNewUserClick() {
 fetchUserListData()
 
 // 获取userslist的数据,进行展示
-const { usersList, usersTotalCount } = storeToRefs(systemStore)
+const { usersList, usersTotalCount } = storeToRefs(userStore)
 
 defineExpose({ fetchUserListData, resetCurrentPage })
 </script>

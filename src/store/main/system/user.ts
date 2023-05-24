@@ -1,9 +1,9 @@
-import { deleteUserById, postUsersListData } from '@/service/main/system/system'
-import type { ISystemState } from '@/types'
+import { deleteUserById, postUsersListData } from '@/service/main/system/user'
+import type { IUserState } from '@/types'
 import { defineStore } from 'pinia'
 
-const useSystemStore = defineStore('system', {
-  state: (): ISystemState => ({
+const useUserStore = defineStore('user', {
+  state: (): IUserState => ({
     usersList: [],
     usersTotalCount: 0
   }),
@@ -21,4 +21,4 @@ const useSystemStore = defineStore('system', {
   }
 })
 
-export default useSystemStore
+export default useUserStore
