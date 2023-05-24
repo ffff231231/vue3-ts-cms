@@ -1,6 +1,11 @@
 <template>
   <div class="user-modal">
-    <el-dialog v-model="dialogVisible" title="新建用户" width="30%" center>
+    <el-dialog
+      v-model="dialogVisible"
+      :title="isNewRef ? '新建用户' : '编辑用户'"
+      width="30%"
+      center
+    >
       <div class="form">
         <el-form :model="formData" label-width="80px" size="large">
           <el-form-item label="用户名" prop="name">
@@ -9,7 +14,7 @@
           <el-form-item label="真实姓名" prop="realname">
             <el-input v-model="formData.realname" placeholder="请输入真实姓名"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="realname">
+          <el-form-item v-if="isNewRef" label="密码" prop="realname">
             <el-input v-model="formData.password" placeholder="请输入密码" show-password></el-input>
           </el-form-item>
           <el-form-item label="电话号码" prop="cellphone">
@@ -52,7 +57,7 @@ const roleStore = useRoleStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore()
 const dialogVisible = ref(false)
-const formData = reactive({
+const formData = reactive<any>({
   name: '',
   realname: '',
   password: '',
@@ -60,10 +65,46 @@ const formData = reactive({
   roleId: '',
   departmentId: ''
 })
+const isNewRef = ref(true)
+let userId = 0
 
-// 控制dialog的可见性
-function changeDialogVisible() {
-  dialogVisible.value = !dialogVisible.value
+// 在dialog对话框中回显user数据
+function callbackUserInfo(userInfo: any) {
+  for (const key in formData) {
+    formData[key] = userInfo[key]
+  }
+
+  // 缓存user数据中的id，因为后面发送editUserDataAction网络请求时，需要用到这个id
+  userId = userInfo.id
+}
+
+// 显示dialog对话框的函数
+function showDialog(isNew: boolean = true) {
+  isNewRef.value = isNew
+
+  // 如果是新建用户，需要将formData重置为默认值
+  if (isNew) {
+    for (const key in formData) {
+      formData[key] = ''
+    }
+  }
+
+  // 显示dialog对话框
+  dialogVisible.value = true
+}
+
+// 点击确定按钮之后，执行这个函数
+function handleConfirmClick() {
+  if (isNewRef.value) {
+    // 如果是新建用户，需要发送newUserDataAction网络请求
+    userStore.newUserDataAction(formData)
+  } else {
+    // 如果是编辑用户，需要发送editUserDataAction网络请求
+    userStore.editUserDataAction(userId, formData)
+  }
+
+  // 关闭dialog对话框
+  dialogVisible.value = false
 }
 
 // 获取rolesList数据
@@ -72,13 +113,7 @@ const { rolesList } = storeToRefs(roleStore)
 // 获取departmentsList数据
 const { departmentsList } = storeToRefs(departmentStore)
 
-// 点击确定按钮之后，执行这个函数
-function handleConfirmClick() {
-  dialogVisible.value = false
-  userStore.newUserDataAction(formData)
-}
-
-defineExpose({ changeDialogVisible })
+defineExpose({ showDialog, callbackUserInfo })
 </script>
 
 <style lang="less" scoped></style>

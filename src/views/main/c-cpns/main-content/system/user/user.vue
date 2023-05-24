@@ -1,7 +1,11 @@
 <template>
   <div class="user">
     <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
-    <user-content ref="userContentRef" @new-click="handleNewClick"></user-content>
+    <user-content
+      ref="userContentRef"
+      @new-click="handleNewClick"
+      @edit-click="handleEditClick"
+    ></user-content>
     <user-dialog ref="userDialogRef" />
   </div>
 </template>
@@ -32,7 +36,17 @@ function handleResetClick() {
 
 // 监听user-content组件中的newClick事件
 function handleNewClick() {
-  userDialogRef.value?.changeDialogVisible()
+  // 显示dialog
+  userDialogRef.value?.showDialog()
+}
+
+// 监听user-content组件中的editClick事件
+function handleEditClick(userInfo: any) {
+  // 回显用户数据
+  userDialogRef.value?.callbackUserInfo(userInfo)
+
+  // 显示dialog
+  userDialogRef.value?.showDialog(false)
 }
 </script>
 

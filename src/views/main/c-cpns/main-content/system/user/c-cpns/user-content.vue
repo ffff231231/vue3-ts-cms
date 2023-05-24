@@ -30,7 +30,15 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
           <template #default="scope">
-            <el-button text size="small" type="primary" icon="Edit"> 编辑 </el-button>
+            <el-button
+              text
+              size="small"
+              type="primary"
+              icon="Edit"
+              @click="handleEditBtnClick(scope.row)"
+            >
+              编辑
+            </el-button>
             <el-button
               text
               size="small"
@@ -64,7 +72,7 @@ import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
 
-const emit = defineEmits(['newClick'])
+const emit = defineEmits(['newClick', 'editClick'])
 const userStore = useUserStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -107,6 +115,11 @@ function handleCurrentChange() {
 function handleDeleteBtnClick(userId: number) {
   // 删除数据操作
   userStore.deleteUserAction(userId)
+}
+
+// 点击编辑按钮之后，执行这个函数
+function handleEditBtnClick(userInfo: any) {
+  emit('editClick', userInfo)
 }
 
 // 点击新建用户按钮后，执行这个函数

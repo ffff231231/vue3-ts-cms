@@ -1,4 +1,9 @@
-import { deleteUserById, newUserData, postUsersListData } from '@/service/main/system/user'
+import {
+  deleteUserById,
+  editUserData,
+  newUserData,
+  postUsersListData
+} from '@/service/main/system/user'
 import type { IUserState } from '@/types'
 import { defineStore } from 'pinia'
 
@@ -9,7 +14,7 @@ const useUserStore = defineStore('user', {
     cacheQueryInfo: {}
   }),
   actions: {
-    // 请求usersList数据的函数
+    // 请求usersList数据的action函数
     async postUsersListAction(queryInfo: any) {
       const usersListResult = await postUsersListData(queryInfo)
       const { list, totalCount } = usersListResult.data
@@ -17,19 +22,29 @@ const useUserStore = defineStore('user', {
       this.usersList = list
       this.usersTotalCount = totalCount
     },
-    // 删除用户的函数
+    // 删除user的action函数
     async deleteUserAction(userId: number) {
-      // 删除用户
+      // 删除user
       const deleteResult = await deleteUserById(userId)
       console.log(deleteResult)
 
       // 重新请求usersList数据
       this.postUsersListAction(this.cacheQueryInfo)
     },
-    // 新建用户的函数
+    // 新建user的action函数
     async newUserDataAction(userInfo: any) {
+      // 新建user
       const newResult = await newUserData(userInfo)
       console.log(newResult)
+
+      // 重新请求usersList数据
+      this.postUsersListAction(this.cacheQueryInfo)
+    },
+    // 编辑user的action函数
+    async editUserDataAction(userId: number, userInfo: any) {
+      // 编辑user
+      const editResult = await editUserData(userId, userInfo)
+      console.log(editResult)
 
       // 重新请求usersList数据
       this.postUsersListAction(this.cacheQueryInfo)
