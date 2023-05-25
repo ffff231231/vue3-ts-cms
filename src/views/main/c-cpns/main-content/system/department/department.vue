@@ -45,7 +45,7 @@ const dialogConfigRef = computed(() => {
   return dialogConfig
 })
 
-// 从hooks函数中拿到相应的变量和函数
+// 逻辑关系
 const { pageContentRef, handleQueryClick, handleResetClick } = usePageContent()
 const { pageDialogRef, handleNewClick, handleEditClick } = usePageDialog()
 </script>
