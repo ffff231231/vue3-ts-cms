@@ -43,6 +43,7 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     PageContent: typeof import('./src/components/page-content/page-content.vue')['default']
+    PageDialog: typeof import('./src/components/page-dialog/page-dialog.vue')['default']
     PageSearch: typeof import('./src/components/page-search/page-search.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

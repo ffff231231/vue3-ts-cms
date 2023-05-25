@@ -1,6 +1,6 @@
 interface IDepartmentState {
-  departmentsList: any[]
-  departmentsTotalCount: number
+  departmentList: any[]
+  departmentTotalCount: number
 }
 
 export type { IDepartmentState }

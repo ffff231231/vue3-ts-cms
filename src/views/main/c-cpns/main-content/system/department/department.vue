@@ -15,17 +15,33 @@
         <span class="leader">{{ scope.row.leader }}</span>
       </template>
     </page-content>
-    <page-dialog ref="pageDialogRef" />
+    <page-dialog :dialog-config="dialogConfigRef" ref="pageDialogRef" />
   </div>
 </template>
 
 <script setup lang="ts">
 import PageSearch from '@/components/page-search/page-search.vue'
 import PageContent from '@/components/page-content/page-content.vue'
-import PageDialog from './c-cpns/page-dialog.vue'
+import PageDialog from '@/components/page-dialog/page-dialog.vue'
 import searchConfig from './config/search.config'
 import contentConfig from './config/content.config'
-import { ref } from 'vue'
+import dialogConfig from './config/dialog.config'
+import { computed, ref } from 'vue'
+import useDepartmentStore from '@/store/main/system/department'
+
+// 根据从服务器拿到的departmentList数据，填充dialogConfig中上级部门的options
+const dialogConfigRef = computed(() => {
+  const departmentStore = useDepartmentStore()
+  const parentIdOptions = departmentStore.departmentList.map((item) => {
+    return { label: item.name, value: item.id }
+  })
+  dialogConfig.formItems.forEach((item) => {
+    if (item.prop === 'parentId') {
+      item.options?.push(...parentIdOptions)
+    }
+  })
+  return dialogConfig
+})
 
 // 为了拿到page-content组件，给page-content组件绑定一个ref
 const pageContentRef = ref<InstanceType<typeof PageContent>>()

@@ -1,9 +1,12 @@
-const contentConfig = {
+import type { IContentConfig } from '@/types'
+
+const contentConfig: IContentConfig = {
+  pageName: 'department',
   header: {
     title: '部门列表',
     btnTitle: '新建部门'
   },
-  propsList: [
+  tableColumns: [
     { type: 'selection', label: '选择', width: '50' },
     { type: 'index', label: '序号', width: '60' },
 

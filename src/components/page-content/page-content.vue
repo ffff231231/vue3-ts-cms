@@ -8,7 +8,7 @@
     </div>
     <div class="table">
       <el-table :data="pageList" border style="width: 100%">
-        <template v-for="item in contentConfig.propsList" :key="item.label">
+        <template v-for="item in contentConfig.tableColumns" :key="item.label">
           <template v-if="item.type === 'timer'">
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
@@ -72,15 +72,10 @@ import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
 import usePageStore from '@/store/main/system/page'
+import type { IContentConfig } from '@/types'
 
 interface IProps {
-  contentConfig: {
-    header: {
-      title: string
-      btnTitle: string
-    }
-    propsList: any[]
-  }
+  contentConfig: IContentConfig
 }
 const props = defineProps<IProps>()
 const emit = defineEmits(['newClick', 'editClick'])
@@ -103,7 +98,7 @@ function fetchPageListData(searchForm: any = {}) {
   const queryInfo = { ...pageInfo, ...searchForm }
 
   // 发送网络请求
-  pageStore.postPageListAction('department', queryInfo)
+  pageStore.postPageListAction(props.contentConfig.pageName, queryInfo)
 }
 
 // 将currentPage重置成默认值
@@ -125,7 +120,7 @@ function handleCurrentChange() {
 // 点击删除按钮之后，执行这个函数
 function handleDeleteBtnClick(pageId: number) {
   // 删除数据操作
-  pageStore.deletePageAction('department', pageId)
+  pageStore.deletePageAction(props.contentConfig.pageName, pageId)
 }
 
 // 点击编辑按钮之后，执行这个函数

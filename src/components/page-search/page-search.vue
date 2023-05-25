@@ -3,7 +3,7 @@
     <!-- 输入搜索关键字的表单 -->
     <el-form :model="searchForm" ref="formRef" label-width="80px" size="large">
       <el-row :gutter="20">
-        <template v-for="item in searchConfig.formItems" :key="item.prop">
+        <template v-for="item in searchConfig.formItems" :key="item.label">
           <el-col :span="8">
             <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
@@ -49,14 +49,13 @@
 </template>
 
 <script setup lang="ts">
+import type { ISearchConfig } from '@/types'
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
 
 // 接收属性
 interface IProps {
-  searchConfig: {
-    formItems: any[]
-  }
+  searchConfig: ISearchConfig
 }
 const props = defineProps<IProps>()
 const initialSearchForm: any = {}

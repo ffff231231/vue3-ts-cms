@@ -43,11 +43,11 @@ const useLoginStore = defineStore('login', {
 
       // 请求所有rolesList数据
       const roleStore = useRoleStore()
-      roleStore.postRolesListAction()
+      roleStore.postRoleListAction()
 
       // 请求所有departmentsList数据
       const departmentStore = useDepartmentStore()
-      departmentStore.postDepartmentsListAction()
+      departmentStore.postDepartmentListAction()
 
       // 跳转到第一个匹配到本地路由对象的二级菜单所对应的页面。
       router.push(firstSubMenu.url)
@@ -61,11 +61,11 @@ const useLoginStore = defineStore('login', {
 
         // 请求所有rolesList数据
         const roleStore = useRoleStore()
-        roleStore.postRolesListAction()
+        roleStore.postRoleListAction()
 
         // 请求所有departmentsList数据
         const departmentStore = useDepartmentStore()
-        departmentStore.postDepartmentsListAction()
+        departmentStore.postDepartmentListAction()
       }
     }
   }

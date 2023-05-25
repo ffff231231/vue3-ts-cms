@@ -1,4 +1,6 @@
-const searchConfig = {
+import type { ISearchConfig } from '@/types'
+
+const searchConfig: ISearchConfig = {
   formItems: [
     {
       type: 'input',

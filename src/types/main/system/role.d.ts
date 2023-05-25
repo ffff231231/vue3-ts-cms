@@ -1,6 +1,6 @@
 interface IRoleState {
-  rolesList: any[]
-  rolesTotalCount: number
+  roleList: any[]
+  roleTotalCount: number
 }
 
 export type { IRoleState }
