@@ -40,6 +40,13 @@
               </template>
             </el-table-column>
           </template>
+          <template v-else-if="item.type === 'custom'">
+            <el-table-column align="center" v-bind="item">
+              <template #default="scope">
+                <slot :name="item.slotName" v-bind="scope"></slot>
+              </template>
+            </el-table-column>
+          </template>
           <template v-else>
             <el-table-column align="center" v-bind="item" />
           </template>

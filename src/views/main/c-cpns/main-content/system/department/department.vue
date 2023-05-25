@@ -10,7 +10,11 @@
       ref="pageContentRef"
       @new-click="handleNewClick"
       @edit-click="handleEditClick"
-    ></page-content>
+    >
+      <template #leader="scope">
+        <span class="leader">{{ scope.row.leader }}</span>
+      </template>
+    </page-content>
     <page-dialog ref="pageDialogRef" />
   </div>
 </template>
@@ -61,5 +65,9 @@ function handleEditClick(pageInfo: any) {
 .page {
   border-radius: 8px;
   overflow: hidden;
+}
+
+.leader {
+  color: rgb(35, 135, 236);
 }
 </style>
