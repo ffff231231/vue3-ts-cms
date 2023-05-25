@@ -1,6 +1,10 @@
 <template>
   <div class="page">
-    <page-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
+    <page-search
+      :search-config="searchConfig"
+      @query-click="handleQueryClick"
+      @reset-click="handleResetClick"
+    />
     <page-content
       ref="pageContentRef"
       @new-click="handleNewClick"
@@ -11,9 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import PageSearch from './c-cpns/page-search.vue'
+import PageSearch from '@/components/page-search/page-search.vue'
 import PageContent from './c-cpns/page-content.vue'
 import PageDialog from './c-cpns/page-dialog.vue'
+import searchConfig from './config/search.config'
 import { ref } from 'vue'
 
 // 为了拿到page-content组件，给page-content组件绑定一个ref
