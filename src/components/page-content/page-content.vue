@@ -12,7 +12,7 @@
           <template v-if="item.type === 'timer'">
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
-                {{ formatUTC(scope.row.createAt) }}
+                {{ formatUTC(scope.row[item.prop]) }}
               </template>
             </el-table-column>
           </template>

@@ -26,10 +26,12 @@ import PageDialog from '@/components/page-dialog/page-dialog.vue'
 import searchConfig from './config/search.config'
 import contentConfig from './config/content.config'
 import dialogConfig from './config/dialog.config'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import useDepartmentStore from '@/store/main/system/department'
+import usePageContent from '@/hooks/usePageContent'
+import usePageDialog from '@/hooks/usePageDialog'
 
-// 根据从服务器拿到的departmentList数据，填充dialogConfig中上级部门的options
+// 根据从服务器拿到的departmentList数据，填充dialogConfig里面上级部门的options
 const dialogConfigRef = computed(() => {
   const departmentStore = useDepartmentStore()
   const parentIdOptions = departmentStore.departmentList.map((item) => {
@@ -43,38 +45,9 @@ const dialogConfigRef = computed(() => {
   return dialogConfig
 })
 
-// 为了拿到page-content组件，给page-content组件绑定一个ref
-const pageContentRef = ref<InstanceType<typeof PageContent>>()
-
-// 为了拿到page-dialog组件，给page-dialog组件绑定一个ref
-const pageDialogRef = ref<InstanceType<typeof PageDialog>>()
-
-// 监听page-search组件中的queryClick事件
-function handleQueryClick(searchForm: any) {
-  pageContentRef.value?.resetCurrentPage()
-  pageContentRef.value?.fetchPageListData(searchForm)
-}
-
-// 监听page-search组件中的resetClick事件
-function handleResetClick() {
-  pageContentRef.value?.resetCurrentPage()
-  pageContentRef.value?.fetchPageListData()
-}
-
-// 监听page-content组件中的newClick事件
-function handleNewClick() {
-  // 显示dialog对话框
-  pageDialogRef.value?.showDialog()
-}
-
-// 监听page-content组件中的editClick事件
-function handleEditClick(pageInfo: any) {
-  // 在dialog对话框中回显page数据
-  pageDialogRef.value?.callbackPageInfo(pageInfo)
-
-  // 显示dialog对话框
-  pageDialogRef.value?.showDialog(false)
-}
+// 从hooks函数中拿到相应的变量和函数
+const { pageContentRef, handleQueryClick, handleResetClick } = usePageContent()
+const { pageDialogRef, handleNewClick, handleEditClick } = usePageDialog()
 </script>
 
 <style lang="less" scoped>
