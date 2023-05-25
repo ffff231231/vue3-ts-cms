@@ -6,6 +6,7 @@
       @reset-click="handleResetClick"
     />
     <page-content
+      :content-config="contentConfig"
       ref="pageContentRef"
       @new-click="handleNewClick"
       @edit-click="handleEditClick"
@@ -16,9 +17,10 @@
 
 <script setup lang="ts">
 import PageSearch from '@/components/page-search/page-search.vue'
-import PageContent from './c-cpns/page-content.vue'
+import PageContent from '@/components/page-content/page-content.vue'
 import PageDialog from './c-cpns/page-dialog.vue'
 import searchConfig from './config/search.config'
+import contentConfig from './config/content.config'
 import { ref } from 'vue'
 
 // 为了拿到page-content组件，给page-content组件绑定一个ref

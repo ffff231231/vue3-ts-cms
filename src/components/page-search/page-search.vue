@@ -27,8 +27,9 @@
                   :placeholder="item.placeholder"
                   style="width: 100%"
                 >
-                  <el-option label="启用" :value="1" />
-                  <el-option label="禁用" :value="0" />
+                  <template v-for="option in item.options" :key="option.value">
+                    <el-option :label="option.label" :value="option.value" />
+                  </template>
                 </el-select>
               </template>
             </el-form-item>
