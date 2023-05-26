@@ -15,6 +15,7 @@ interface IContentConfig {
     btnTitle: string
   }
   tableColumns: any[]
+  childrenTree?: any
 }
 
 interface IDialogConfig {

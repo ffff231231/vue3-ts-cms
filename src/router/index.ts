@@ -1,6 +1,5 @@
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
-import { firstSubMenu } from '@/utils/map-menus'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({

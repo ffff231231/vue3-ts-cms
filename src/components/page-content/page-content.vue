@@ -2,12 +2,14 @@
   <div class="page-content">
     <div class="header">
       <h3 class="title">{{ contentConfig.header.title ?? '数据列表' }}</h3>
-      <el-button type="primary" @click="handleNewPageClick">
-        {{ contentConfig.header.btnTitle ?? '新建数据' }}
-      </el-button>
+      <template v-if="contentConfig.pageName !== 'menu'">
+        <el-button type="primary" @click="handleNewPageClick">
+          {{ contentConfig.header.btnTitle ?? '新建数据' }}
+        </el-button>
+      </template>
     </div>
     <div class="table">
-      <el-table :data="pageList" border style="width: 100%">
+      <el-table :data="pageList" border style="width: 100%" v-bind="contentConfig.childrenTree">
         <template v-for="item in contentConfig.tableColumns" :key="item.label">
           <template v-if="item.type === 'timer'">
             <el-table-column align="center" v-bind="item">
