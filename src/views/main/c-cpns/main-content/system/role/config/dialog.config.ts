@@ -18,6 +18,10 @@ const dialogConfig: IDialogConfig = {
       label: '权限介绍',
       prop: 'intro',
       placeholder: '请输入权限介绍'
+    },
+    {
+      type: 'custom',
+      slotName: 'menuList'
     }
   ]
 }

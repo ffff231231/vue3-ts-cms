@@ -12,7 +12,18 @@
       @edit-click="handleEditClick"
     >
     </page-content>
-    <page-dialog :dialog-config="dialogConfig" ref="pageDialogRef" />
+    <page-dialog :dialog-config="dialogConfig" ref="pageDialogRef">
+      <template #menuList>
+        <el-tree
+          :data="menuList"
+          :props="{
+            children: 'children',
+            label: 'name'
+          }"
+          show-checkbox
+        />
+      </template>
+    </page-dialog>
   </div>
 </template>
 
@@ -25,6 +36,12 @@ import contentConfig from './config/content.config'
 import dialogConfig from './config/dialog.config'
 import usePageContent from '@/hooks/usePageContent'
 import usePageDialog from '@/hooks/usePageDialog'
+import useMenuStore from '@/store/main/system/menu'
+import { storeToRefs } from 'pinia'
+
+// 获取完整的菜单
+const menuStore = useMenuStore()
+const { menuList } = storeToRefs(menuStore)
 
 // 逻辑关系
 const { pageContentRef, handleQueryClick, handleResetClick } = usePageContent()

@@ -7,6 +7,7 @@ import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
 import { firstSubMenu, mapMenusToRoutes } from '@/utils/map-menus'
 import useRoleStore from '../main/system/role'
 import useDepartmentStore from '../main/system/department'
+import useMenuStore from '../main/system/menu'
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
@@ -41,13 +42,17 @@ const useLoginStore = defineStore('login', {
       const matchRoutes = mapMenusToRoutes(userMenus)
       matchRoutes.forEach((route) => router.addRoute('main', route))
 
-      // 请求所有rolesList数据
+      // 请求roleList数据
       const roleStore = useRoleStore()
       roleStore.postRoleListAction()
 
-      // 请求所有departmentsList数据
+      // 请求departmentList数据
       const departmentStore = useDepartmentStore()
       departmentStore.postDepartmentListAction()
+
+      // 请求menuList数据
+      const menuStore = useMenuStore()
+      menuStore.postMenuListAction()
 
       // 跳转到第一个匹配到本地路由对象的二级菜单所对应的页面。
       router.push(firstSubMenu.url)
@@ -59,13 +64,17 @@ const useLoginStore = defineStore('login', {
         const matchRoutes = mapMenusToRoutes(this.userMenus)
         matchRoutes.forEach((route) => router.addRoute('main', route))
 
-        // 请求所有rolesList数据
+        // 请求rolesList数据
         const roleStore = useRoleStore()
         roleStore.postRoleListAction()
 
-        // 请求所有departmentsList数据
+        // 请求departmentsList数据
         const departmentStore = useDepartmentStore()
         departmentStore.postDepartmentListAction()
+
+        // 请求menuList数据
+        const menuStore = useMenuStore()
+        menuStore.postMenuListAction()
       }
     }
   }

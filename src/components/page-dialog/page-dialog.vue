@@ -13,6 +13,9 @@
               <template v-if="item.type === 'input'">
                 <el-input v-model="formData[item.prop]" :placeholder="item.placeholder"></el-input>
               </template>
+              <template v-if="item.type === 'custom'">
+                <slot :name="item.slotName"></slot>
+              </template>
               <template v-else-if="item.type === 'date-picker'">
                 <el-date-picker
                   v-model="formData[item.prop]"
