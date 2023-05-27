@@ -22,14 +22,14 @@
           </el-form-item>
           <el-form-item label="选择角色" prop="enable">
             <el-select v-model="formData.roleId" placeholder="请选择角色" style="width: 100%">
-              <template v-for="item in rolesList" :key="item.id">
+              <template v-for="item in roleList" :key="item.id">
                 <el-option :label="item.name" :value="item.id" />
               </template>
             </el-select>
           </el-form-item>
           <el-form-item label="选择部门" prop="enable">
             <el-select v-model="formData.departmentId" placeholder="请选择部门" style="width: 100%">
-              <template v-for="item in departmentsList" :key="item.id">
+              <template v-for="item in departmentList" :key="item.id">
                 <el-option :label="item.name" :value="item.id" />
               </template>
             </el-select>
@@ -108,10 +108,10 @@ function handleConfirmClick() {
 }
 
 // 获取rolesList数据
-const { rolesList } = storeToRefs(roleStore)
+const { roleList } = storeToRefs(roleStore)
 
 // 获取departmentsList数据
-const { departmentsList } = storeToRefs(departmentStore)
+const { departmentList } = storeToRefs(departmentStore)
 
 defineExpose({ showDialog, callbackUserInfo })
 </script>

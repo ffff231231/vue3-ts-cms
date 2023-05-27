@@ -9,12 +9,9 @@ function loadLocalRoutes() {
   const localRoutes: RouteRecordRaw[] = []
 
   // 读取src/router/main中所有的ts文件，这些ts文件中都是本地路由对象
-  const files: Record<string, any> = import.meta.glob(
-    '../router/main/**/*.ts',
-    {
-      eager: true
-    }
-  )
+  const files: Record<string, any> = import.meta.glob('../router/main/**/*.ts', {
+    eager: true
+  })
 
   // 将本地路由对象全都放到localRoutes数组中
   for (const file in files) {
@@ -105,4 +102,25 @@ export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
   }
   // 将breadcrumbs数组导出
   return breadcrumbs
+}
+
+/**
+ * 将role组件中的dialog组件选中的菜单列表映射成id数组
+ * @param selectMenuList role组件中的dialog组件选中的菜单列表
+ */
+export function mapSelectMenuListToIds(selectMenuList: any) {
+  const ids: number[] = []
+
+  function recurseGetId(selectMenuList: any) {
+    for (const item of selectMenuList) {
+      if (item.children) {
+        recurseGetId(item.children)
+      } else {
+        ids.push(item.id)
+      }
+    }
+  }
+  recurseGetId(selectMenuList)
+
+  return ids
 }

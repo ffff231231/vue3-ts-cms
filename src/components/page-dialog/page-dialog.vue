@@ -63,11 +63,12 @@ let pageId = 0
 // 接收属性
 interface IProps {
   dialogConfig: IDialogConfig
+  selectMenuList?: any
 }
 const props = defineProps<IProps>()
 const initialFormData: any = {}
 for (const item of props.dialogConfig.formItems) {
-  initialFormData[item.prop] = item.initialValue ?? ''
+  initialFormData[item.prop] = ''
 }
 const formData = reactive(initialFormData)
 
@@ -78,7 +79,7 @@ function showDialog(isNew: boolean = true) {
   // 如果是新建page，需要将formData重置为默认值
   if (isNew) {
     for (const key in formData) {
-      formData[key] = initialFormData[key]
+      formData[key] = ''
     }
   }
 
@@ -98,12 +99,18 @@ function callbackPageInfo(pageInfo: any) {
 
 // 点击确定按钮之后，执行这个函数
 function handleConfirmClick() {
+  let infoData = formData
+
+  if (props.selectMenuList) {
+    Object.assign(infoData, { menuList: props.selectMenuList })
+  }
+
   if (isNewRef.value) {
     // 如果是新建page，需要发送newPageDataAction网络请求
-    pageStore.newPageDataAction(props.dialogConfig.pageName, formData)
+    pageStore.newPageDataAction(props.dialogConfig.pageName, infoData)
   } else {
     // 如果是编辑page，需要发送editPageDataAction网络请求
-    pageStore.editPageDataAction(props.dialogConfig.pageName, pageId, formData)
+    pageStore.editPageDataAction(props.dialogConfig.pageName, pageId, infoData)
   }
 
   // 关闭dialog对话框

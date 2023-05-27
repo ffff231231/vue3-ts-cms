@@ -60,7 +60,7 @@ interface IProps {
 const props = defineProps<IProps>()
 const initialSearchForm: any = {}
 for (const item of props.searchConfig.formItems) {
-  initialSearchForm[item.prop] = item.initialValue ?? ''
+  initialSearchForm[item.prop] = ''
 }
 const searchForm = reactive(initialSearchForm)
 
