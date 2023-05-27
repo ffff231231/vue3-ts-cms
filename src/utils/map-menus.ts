@@ -60,6 +60,28 @@ export function mapMenusToRoutes(userMenus: any[]) {
 }
 
 /**
+ * 根据登录用户的菜单树信息,去获取登录用户的按钮权限
+ * @param userMenus 登录用户的菜单树信息
+ * @returns 登录用户的按钮权限(字符串数组)
+ */
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+
+  function recurseGetPermission(userMenus: any[]) {
+    for (const item of userMenus) {
+      if (item.children) {
+        recurseGetPermission(item.children)
+      } else if (item.permission) {
+        permissions.push(item.permission)
+      }
+    }
+  }
+  recurseGetPermission(userMenus)
+
+  return permissions
+}
+
+/**
  * 根据浏览器地址栏中的路径(path)去匹配对应的二级菜单(submenu)
  * @param path 浏览器地址栏中的路径
  * @param userMenus 登录用户的菜单树信息

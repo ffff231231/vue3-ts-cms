@@ -3,8 +3,8 @@ import type { IAccount, ILoginState } from '@/types/index'
 import { accountLoginRequest, getUserInfoById, getUserMenusByRoleId } from '@/service/login/login'
 import { localCache } from '@/utils/cache'
 import router from '@/router'
-import { LOGIN_TOKEN, USER_INFO, USER_MENUS } from '@/global/constants'
-import { firstSubMenu, mapMenusToRoutes } from '@/utils/map-menus'
+import { LOGIN_TOKEN, PERMISSIONS, USER_INFO, USER_MENUS } from '@/global/constants'
+import { firstSubMenu, mapMenusToPermissions, mapMenusToRoutes } from '@/utils/map-menus'
 import useRoleStore from '../main/system/role'
 import useDepartmentStore from '../main/system/department'
 import useMenuStore from '../main/system/menu'
@@ -13,7 +13,8 @@ const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? '',
     userInfo: localCache.getCache(USER_INFO) ?? {},
-    userMenus: localCache.getCache(USER_MENUS) ?? []
+    userMenus: localCache.getCache(USER_MENUS) ?? [],
+    permissions: localCache.getCache(PERMISSIONS) ?? []
   }),
   actions: {
     // 用户输入账号和密码，点击登录按钮后，会执行这个函数
@@ -37,6 +38,11 @@ const useLoginStore = defineStore('login', {
       const userMenus = userMenusResult.data
       this.userMenus = userMenus
       localCache.setCache(USER_MENUS, userMenus)
+
+      // 根据登录用户的菜单树信息，获取登录用户的按钮权限
+      const permissions = mapMenusToPermissions(userMenus)
+      this.permissions = permissions
+      localCache.setCache(PERMISSIONS, permissions)
 
       // 根据登录用户的菜单树信息，动态注册路由
       const matchRoutes = mapMenusToRoutes(userMenus)

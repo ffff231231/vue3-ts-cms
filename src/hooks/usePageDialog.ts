@@ -8,12 +8,15 @@ function usePageDialog(callbackSelectMenuList?: callbackFnType) {
 
   // 监听page-content组件中的newClick事件，监听到了之后，弹出page-dialog组件，然后可以新建数据
   function handleNewClick() {
-    // 显示dialog对话框
+    // 以新建数据的形式显示dialog对话框
     pageDialogRef.value?.showDialog()
   }
 
   // 监听page-content组件中的editClick事件，监听到了之后，弹出page-dialog组件，然后可以编辑数据
   function handleEditClick(pageInfo: any) {
+    // 以编辑数据的形式显示dialog对话框
+    pageDialogRef.value?.showDialog(false)
+
     // 在dialog对话框中回显page数据
     pageDialogRef.value?.callbackPageInfo(pageInfo)
 
@@ -21,9 +24,6 @@ function usePageDialog(callbackSelectMenuList?: callbackFnType) {
     if (callbackSelectMenuList) {
       callbackSelectMenuList(pageInfo)
     }
-
-    // 显示dialog对话框
-    pageDialogRef.value?.showDialog(false)
   }
 
   return {
