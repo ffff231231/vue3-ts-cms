@@ -6,6 +6,9 @@ import {
 } from '@/service/main/system/page'
 import type { IPageState } from '@/types'
 import { defineStore } from 'pinia'
+import useRoleStore from './role'
+import useDepartmentStore from './department'
+import useMenuStore from './menu'
 
 const usePageStore = defineStore('page', {
   state: (): IPageState => ({
@@ -31,6 +34,18 @@ const usePageStore = defineStore('page', {
 
       // 重新请求pageList数据
       this.postPageListAction(pageName, this.cacheQueryInfo)
+
+      // 重新请求roleList数据
+      const roleStore = useRoleStore()
+      roleStore.postRoleListAction()
+
+      // 重新请求departmentList数据
+      const departmentStore = useDepartmentStore()
+      departmentStore.postDepartmentListAction()
+
+      // 重新请求menuList数据
+      const menuStore = useMenuStore()
+      menuStore.postMenuListAction()
     },
 
     // 新建page的action函数
@@ -41,6 +56,18 @@ const usePageStore = defineStore('page', {
 
       // 重新请求pageList数据
       this.postPageListAction(pageName, this.cacheQueryInfo)
+
+      // 重新请求roleList数据
+      const roleStore = useRoleStore()
+      roleStore.postRoleListAction()
+
+      // 重新请求departmentList数据
+      const departmentStore = useDepartmentStore()
+      departmentStore.postDepartmentListAction()
+
+      // 重新请求menuList数据
+      const menuStore = useMenuStore()
+      menuStore.postMenuListAction()
     },
 
     // 编辑page的action函数
@@ -51,6 +78,18 @@ const usePageStore = defineStore('page', {
 
       // 重新请求pageList数据
       this.postPageListAction(pageName, this.cacheQueryInfo)
+
+      // 重新请求roleList数据
+      const roleStore = useRoleStore()
+      roleStore.postRoleListAction()
+
+      // 重新请求departmentList数据
+      const departmentStore = useDepartmentStore()
+      departmentStore.postDepartmentListAction()
+
+      // 重新请求menuList数据
+      const menuStore = useMenuStore()
+      menuStore.postMenuListAction()
     }
   }
 })

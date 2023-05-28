@@ -1,9 +1,8 @@
 import { ref } from 'vue'
 import type PageDialog from '@/components/page-dialog/page-dialog.vue'
 
-type clearMenu = () => void
-type callbackMenu = (data: any) => void
-function usePageDialog(clearSelectMenuList?: clearMenu, callbackSelectMenuList?: callbackMenu) {
+type aboutMenu = (data?: any) => void
+function usePageDialog(clearSelectMenuList?: aboutMenu, callbackSelectMenuList?: aboutMenu) {
   // 为了拿到page-dialog组件，给page-dialog组件绑定一个ref
   const pageDialogRef = ref<InstanceType<typeof PageDialog>>()
 
