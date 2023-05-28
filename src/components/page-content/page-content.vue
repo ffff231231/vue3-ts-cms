@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="header">
       <h3 class="title">{{ contentConfig.header.title ?? '数据列表' }}</h3>
-      <template v-if="isCreate">
+      <template v-if="contentConfig.pageName !== 'menu' && isCreate">
         <el-button type="primary" @click="handleNewPageClick">
           {{ contentConfig.header.btnTitle ?? '新建数据' }}
         </el-button>

@@ -18,9 +18,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const loginStore = useLoginStore()
-const breadcrumbs = computed(() =>
-  mapPathToBreadcrumbs(route.path, loginStore.userMenus)
-)
+const breadcrumbs = computed(() => mapPathToBreadcrumbs(route.path, loginStore.userMenus))
 </script>
 
 <style lang="less" scoped>

@@ -24,11 +24,9 @@
               <span>{{ item.name }}</span>
             </template>
             <template v-for="child in item.children" :key="child.id">
-              <el-menu-item
-                :index="String(child.id)"
-                @click="handleItemClick(child.url)"
-                >{{ child.name }}</el-menu-item
-              >
+              <el-menu-item :index="String(child.id)" @click="handleItemClick(child.url)">{{
+                child.name
+              }}</el-menu-item>
             </template>
           </el-sub-menu></template
         >
