@@ -5,6 +5,7 @@ interface IPageState {
 }
 
 interface ISearchConfig {
+  pageName: string
   formItems: any[]
 }
 

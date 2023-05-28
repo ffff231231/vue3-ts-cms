@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="header">
       <h3 class="title">{{ contentConfig.header.title ?? '数据列表' }}</h3>
-      <template v-if="contentConfig.pageName !== 'menu'">
+      <template v-if="isCreate">
         <el-button type="primary" @click="handleNewPageClick">
           {{ contentConfig.header.btnTitle ?? '新建数据' }}
         </el-button>
@@ -22,6 +22,7 @@
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
                 <el-button
+                  v-if="isUpdate"
                   text
                   size="small"
                   type="primary"
@@ -31,6 +32,7 @@
                   编辑
                 </el-button>
                 <el-button
+                  v-if="isDelete"
                   text
                   size="small"
                   type="danger"
@@ -75,19 +77,34 @@ import { formatUTC } from '@/utils/time-format'
 import { ref } from 'vue'
 import usePageStore from '@/store/main/system/page'
 import type { IContentConfig } from '@/types'
+import usePermissions from '@/hooks/usePermissions'
 
+// 接收属性
 interface IProps {
   contentConfig: IContentConfig
 }
 const props = defineProps<IProps>()
+
+// 自定义事件
 const emit = defineEmits(['newClick', 'editClick'])
+
+// 判断是否有增删改查的权限
+const isCreate = usePermissions(`${props.contentConfig.pageName}:create`)
+const isDelete = usePermissions(`${props.contentConfig.pageName}:delete`)
+const isUpdate = usePermissions(`${props.contentConfig.pageName}:update`)
+const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
+
+// 定义一些组件中会用到的变量
 const pageStore = usePageStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
 let cacheSearchForm: any = {}
 
-// 为了逻辑复用，将请求pageslist数据的网络请求逻辑封装到一个函数里
+// 为了逻辑复用，将请求pagelist数据的网络请求逻辑封装到一个函数里
 function fetchPageListData(searchForm: any = {}) {
+  // 如果没有查询的权限，则直接退出这个函数，不发送请求pagelist数据的网络请求
+  if (!isQuery) return
+
   // 获取offset和size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
@@ -130,15 +147,15 @@ function handleEditBtnClick(pageInfo: any) {
   emit('editClick', pageInfo)
 }
 
-// 点击新建用户按钮后，执行这个函数
+// 点击新建按钮后，执行这个函数
 function handleNewPageClick() {
   emit('newClick')
 }
 
-// 第一次进入page页面时,发送一次网络请求,请求pageslist的数据
+// 第一次进入page页面时,发送一次网络请求,请求pagelist的数据
 fetchPageListData()
 
-// 获取pageslist的数据,进行展示
+// 获取pagelist的数据,进行展示
 const { pageList, pageTotalCount } = storeToRefs(pageStore)
 
 defineExpose({ fetchPageListData, resetCurrentPage })

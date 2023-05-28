@@ -1,5 +1,5 @@
 <template>
-  <div class="page-search">
+  <div class="page-search" v-if="isQuery">
     <!-- 输入搜索关键字的表单 -->
     <el-form :model="searchForm" ref="formRef" label-width="80px" size="large">
       <el-row :gutter="20">
@@ -52,20 +52,26 @@
 import type { ISearchConfig } from '@/types'
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
+import usePermissions from '@/hooks/usePermissions'
 
 // 接收属性
 interface IProps {
   searchConfig: ISearchConfig
 }
 const props = defineProps<IProps>()
+
+// 自定义事件
+const emit = defineEmits(['resetClick', 'queryClick'])
+
+// 判断是否有查询的权限
+const isQuery = usePermissions(`${props.searchConfig.pageName}:query`)
+
+// 定义一些组件中会用到的变量
 const initialSearchForm: any = {}
 for (const item of props.searchConfig.formItems) {
   initialSearchForm[item.prop] = ''
 }
 const searchForm = reactive(initialSearchForm)
-
-// 自定义事件
-const emit = defineEmits(['resetClick', 'queryClick'])
 
 // 重置表单的内容
 const formRef = ref<InstanceType<typeof ElForm>>()

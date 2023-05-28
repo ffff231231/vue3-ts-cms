@@ -1,6 +1,7 @@
 import type { ISearchConfig } from '@/types'
 
 const searchConfig: ISearchConfig = {
+  pageName: 'department',
   formItems: [
     {
       type: 'input',
