@@ -52,11 +52,18 @@ import type { ElTree } from 'element-plus'
 // 为了拿到el-tree组件，给el-tree组件绑定一个ref
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
-// 为了让role组件中的dialog组件可以回显之前选择的菜单树，需要用到这个回调函数
+// 编辑role时，为了让role组件中的dialog组件可以回显之前选择的菜单树信息，需要用到这个回调函数
 function callbackSelectMenuList(pageInfo: any) {
   nextTick(() => {
     const menuIds = mapSelectMenuListToIds(pageInfo.menuList)
     treeRef.value?.setCheckedKeys(menuIds)
+  })
+}
+
+// 新建role时，为了让role组件中的dialog组件可以清空之前选择的菜单树信息，需要用到这个回调函数
+function clearSelectMenuList() {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
   })
 }
 
@@ -72,7 +79,10 @@ function handleElTreeCheck(data1: any, data2: any) {
 
 // 逻辑关系
 const { pageContentRef, handleQueryClick, handleResetClick } = usePageContent()
-const { pageDialogRef, handleNewClick, handleEditClick } = usePageDialog(callbackSelectMenuList)
+const { pageDialogRef, handleNewClick, handleEditClick } = usePageDialog(
+  clearSelectMenuList,
+  callbackSelectMenuList
+)
 </script>
 
 <style lang="less" scoped>
