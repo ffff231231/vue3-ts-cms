@@ -1,6 +1,6 @@
 # vue3-ts-cms
 
-This template should help get you started developing with Vue 3 in Vite.
+**注意事项:**
 - 测试账号：coderwhy/coderdemo
 - 密码：123456/123456
 - 禁止随便修改别人账号、密码、权限管理等相关操作
@@ -12,7 +12,7 @@ This template should help get you started developing with Vue 3 in Vite.
 - 最终代码里面，我将user组件用配置文件进行了重构，如果想看未重构的user组件，可以回退代码。
 - 由于我看的课程中，老师是最后介绍的Husky、Commitizen、Commitlint，所以一开始的提交信息都不是很规范，但是我尽量将提交信息写的比较清楚了。
 - 老师讲解的项目中，分页器哪里有一些小bug，我尽量修复了哪些bug，可能还会有其他bug，只是我没有发现，希望发现的同好可以告诉我一下。
-- 请求roleList数据和departmentList数据时，如果没有传size，默认只会返回10条数据，应该是老师那边服务器进行的设置。为了能拿到全部的数据，我将size=100传了过去。
+- 请求roleList数据和departmentList数据时，如果没有传size，默认只会返回10条数据，应该是老师服务器那边进行的设置。为了能拿到全部的数据，我将size=100传了过去。
 
 ## Recommended IDE Setup
 
