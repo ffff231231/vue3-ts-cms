@@ -12,15 +12,6 @@
                   :placeholder="item.placeholder"
                 ></el-input>
               </template>
-              <template v-else-if="item.type === 'date-picker'">
-                <el-date-picker
-                  v-model="searchForm[item.prop]"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                />
-              </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
                   v-model="searchForm[item.prop]"
@@ -31,6 +22,15 @@
                     <el-option :label="option.label" :value="option.value" />
                   </template>
                 </el-select>
+              </template>
+              <template v-else-if="item.type === 'date-picker'">
+                <el-date-picker
+                  v-model="searchForm[item.prop]"
+                  type="daterange"
+                  range-separator="-"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                />
               </template>
             </el-form-item>
           </el-col>

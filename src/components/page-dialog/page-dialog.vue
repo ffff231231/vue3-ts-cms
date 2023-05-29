@@ -13,18 +13,6 @@
               <template v-if="item.type === 'input'">
                 <el-input v-model="formData[item.prop]" :placeholder="item.placeholder"></el-input>
               </template>
-              <template v-if="item.type === 'custom'">
-                <slot :name="item.slotName"></slot>
-              </template>
-              <template v-else-if="item.type === 'date-picker'">
-                <el-date-picker
-                  v-model="formData[item.prop]"
-                  type="daterange"
-                  range-separator="-"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                />
-              </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
                   v-model="formData[item.prop]"
@@ -35,6 +23,9 @@
                     <el-option :label="option.label" :value="option.value" />
                   </template>
                 </el-select>
+              </template>
+              <template v-else-if="item.type === 'custom'">
+                <slot :name="item.slotName"></slot>
               </template>
             </el-form-item>
           </template>

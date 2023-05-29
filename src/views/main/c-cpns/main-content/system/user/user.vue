@@ -1,53 +1,65 @@
 <template>
-  <div class="user">
-    <user-search @query-click="handleQueryClick" @reset-click="handleResetClick" />
-    <user-content
-      ref="userContentRef"
+  <div class="page">
+    <page-search
+      :search-config="searchConfig"
+      @query-click="handleQueryClick"
+      @reset-click="handleResetClick"
+    />
+    <page-content
+      :content-config="contentConfig"
+      ref="pageContentRef"
       @new-click="handleNewClick"
       @edit-click="handleEditClick"
-    ></user-content>
-    <user-dialog ref="userDialogRef" />
+    >
+      <template #enable="scope">
+        <el-button :type="scope.row.enable ? 'success' : 'danger'" size="small" plain>
+          {{ scope.row.enable ? '启用' : '禁用' }}
+        </el-button>
+      </template>
+    </page-content>
+    <page-dialog :dialog-config="dialogConfigRef" ref="pageDialogRef" />
   </div>
 </template>
 
 <script setup lang="ts">
-import UserSearch from './c-cpns/user-search.vue'
-import UserContent from './c-cpns/user-content.vue'
-import UserDialog from './c-cpns/user-dialog.vue'
-import { ref } from 'vue'
+import PageSearch from '@/components/page-search/page-search.vue'
+import PageContent from '@/components/page-content/page-content.vue'
+import PageDialog from '@/components/page-dialog/page-dialog.vue'
+import searchConfig from './config/search.config'
+import contentConfig from './config/content.config'
+import dialogConfig from './config/dialog.config'
+import usePageContent from '@/hooks/usePageContent'
+import usePageDialog from '@/hooks/usePageDialog'
+import useDepartmentStore from '@/store/main/system/department'
+import useRoleStore from '@/store/main/system/role'
+import { computed } from 'vue'
 
-// 为了拿到user-content组件，给user-content组件绑定一个ref
-const userContentRef = ref<InstanceType<typeof UserContent>>()
+// 根据从服务器拿到的roleList数据，填充dialogConfig里面roleId中的options
+// 根据从服务器拿到的departmentList数据，填充dialogConfig里面departmentId中的options
+const dialogConfigRef = computed(() => {
+  const roleStore = useRoleStore()
+  const departmentStore = useDepartmentStore()
 
-// 为了拿到user-dialog组件，给user-dialog组件绑定一个ref
-const userDialogRef = ref<InstanceType<typeof UserDialog>>()
+  const roleIdOptions = roleStore.roleList.map((item) => {
+    return { label: item.name, value: item.id }
+  })
+  const departmentIdOptions = departmentStore.departmentList.map((item) => {
+    return { label: item.name, value: item.id }
+  })
 
-// 监听user-search组件中的queryClick事件
-function handleQueryClick(searchForm: any) {
-  userContentRef.value?.resetCurrentPage()
-  userContentRef.value?.fetchUsersListData(searchForm)
-}
+  dialogConfig.formItems.forEach((item) => {
+    if (item.prop === 'roleId') {
+      item.options?.push(...roleIdOptions)
+    } else if (item.prop === 'departmentId') {
+      item.options?.push(...departmentIdOptions)
+    }
+  })
+  return dialogConfig
+})
 
-// 监听user-search组件中的resetClick事件
-function handleResetClick() {
-  userContentRef.value?.resetCurrentPage()
-  userContentRef.value?.fetchUsersListData()
-}
-
-// 监听user-content组件中的newClick事件
-function handleNewClick() {
-  // 显示dialog对话框
-  userDialogRef.value?.showDialog()
-}
-
-// 监听user-content组件中的editClick事件
-function handleEditClick(userInfo: any) {
-  // 在dialog对话框中回显user数据
-  userDialogRef.value?.callbackUserInfo(userInfo)
-
-  // 显示dialog对话框
-  userDialogRef.value?.showDialog(false)
-}
+// 逻辑关系
+const { pageContentRef, handleQueryClick, handleResetClick } = usePageContent()
+const { pageDialogRef, handleNewClick, handleEditClick } = usePageDialog()
 </script>
 
 <style lang="less" scoped>

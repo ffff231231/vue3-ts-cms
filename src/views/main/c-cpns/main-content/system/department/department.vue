@@ -26,12 +26,12 @@ import PageDialog from '@/components/page-dialog/page-dialog.vue'
 import searchConfig from './config/search.config'
 import contentConfig from './config/content.config'
 import dialogConfig from './config/dialog.config'
-import { computed } from 'vue'
-import useDepartmentStore from '@/store/main/system/department'
 import usePageContent from '@/hooks/usePageContent'
 import usePageDialog from '@/hooks/usePageDialog'
+import useDepartmentStore from '@/store/main/system/department'
+import { computed } from 'vue'
 
-// 根据从服务器拿到的departmentList数据，填充dialogConfig里面上级部门的options
+// 根据从服务器拿到的departmentList数据，填充dialogConfig里面departmentId中的options
 const dialogConfigRef = computed(() => {
   const departmentStore = useDepartmentStore()
   const parentIdOptions = departmentStore.departmentList.map((item) => {
